@@ -1,0 +1,25 @@
+WIDLogger_V3R2 Assembly Information:
+
+Quantity requested: 20 Assembled Boards
+
+PCB Size: 				74x100mm (approx)
+Two sided: 				No
+# SMT Parts: 			55
+# TH Parts: 			1
+# Fine Pitch Parts:		2
+# BGA/QFN/Leadless:		3
+Smallest Part Size: 	0402
+Leaded/LeadFree:		Lead-Free
+
+Files
+BOM File:				WIDLogger_V2R2_BOM_to_Bittele.xls
+Top Solder Paste File:	WIDLogger_V3R2.GTP
+Readme File:			WIDLogger_V3R2_Assembly_Information.txt (this file)
+
+Extra Info:
+The orientation of parts Y1 and Y2 are not important, therefore Pin1 is not marked.
+Orientation is not important for any Capicitor except for C22.
+For D2, Pin1 (marked with dot) is the cathode.
+For D6 and D5, the cathode is marked as follows:  
+    ___   
+ K |___  A

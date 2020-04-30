@@ -1,0 +1,23 @@
+Wireless ID Board Specifications
+
+Layers: 		2
+Thickness: 		1.6mm
+Surface Finish:		HAL Pb/Sn
+Copper Finish:		1oz
+Solder Mask:		Both Sides
+Silk Screen:		Top Only
+Min Trace:		6mil
+Min Hole:		12mil
+PCB Material:		FR4
+
+Gerber Files:
+Bottom Copper Layer 	- WIDLogger.GBL
+Bottom Solder Mask 	- WIDLogger.GBS
+Top Copper Layer	- WIDLogger.GTL
+Top Solder Mask		- WIDLogger.GTS
+Top Silkscreen		- WIDLogger.GTO
+Board Outline		- WIDLogger.GKO
+
+Also, for Solder Paste Stencils:
+(Copies of these files are also included in the 'Assembly Files' folder)
+Top Paste Layer		- WIDLogger.GTP

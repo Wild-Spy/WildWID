@@ -1,0 +1,46 @@
+Designator Footprint               Mid X         Mid Y         Ref X         Ref Y         Pad X         Pad Y TB      Rotation Comment        
+
+C1         CAP0603               5590mil       7935mil       5590mil       7935mil   5555.551mil       7935mil  T        360.00 Cap            
+C2         CAP0603               5730mil       7935mil       5730mil       7935mil   5764.449mil       7935mil  T        180.00 Cap            
+C3         CAPPR2-5x6.8          4790mil       7930mil       4790mil       7930mil       4790mil    7969.37mil  T        270.00 Cap Pol1       
+C4         CAP0603               5580mil       7165mil       5580mil       7165mil   5614.449mil       7165mil  T        180.00 Cap            
+C5         CAP0603               5240mil       7445mil       5240mil       7445mil       5240mil   7410.551mil  T         90.00 Cap            
+C6         CAP0603               5500mil       7825mil       5500mil       7825mil   5534.449mil       7825mil  T        180.00 Cap            
+C7         CAP0603               5860mil       7545mil       5860mil       7545mil       5860mil   7579.449mil  T        270.00 Cap            
+C8         CAP0603               4970mil       7590mil       4970mil       7590mil   4935.551mil       7590mil  T        360.00 Cap            
+C9         0402                  6470mil       7720mil       6470mil       7720mil   6489.685mil       7720mil  T        180.00 cap            
+C10        CAP0603               6470mil       7640mil       6470mil       7640mil       6470mil   7674.449mil  T        270.00 cap            
+C11        0402                  6470mil       7560mil       6470mil       7560mil   6489.685mil       7560mil  T        180.00 cap            
+C12        0402                  6470mil       7520mil       6470mil       7520mil   6489.685mil       7520mil  T        180.00 cap            
+C13        0402                  6345mil       7395mil       6345mil       7395mil   6325.315mil       7395mil  T        360.00 cap            
+C14        0402                  6345mil       7355mil       6345mil       7355mil   6364.685mil       7355mil  T        180.00 cap            
+C15        0402                  6225mil       7355mil       6225mil       7355mil   6205.315mil       7355mil  T        360.00 cap            
+C16        0402                  6225mil       7395mil       6225mil       7395mil   6205.315mil       7395mil  T        360.00 cap            
+C17        0402                  6065mil       7775mil       6065mil       7775mil   6045.315mil       7775mil  T        360.00 cap            
+C18        0402                  6105mil       7455mil       6105mil       7455mil   6124.685mil       7455mil  T        180.00 cap            
+C19        CAP0603               5440mil       8320mil       5440mil       8320mil       5440mil   8354.449mil  T        270.00 Cap            
+C20        CAP0603               6180mil       8315mil       6180mil       8315mil       6180mil   8349.449mil  T        270.00 Cap            
+C21        CAP0603               5960mil       8165mil       5960mil       8165mil   5925.551mil       8165mil  T        360.00 Cap            
+C22        1210TANTCAP           5095mil       8145mil       5095mil       8145mil    5041.85mil       8145mil  T        360.00 Cap            
+C23        CAP0805               5075mil       7760mil       5075mil       7760mil   5113.386mil       7760mil  T        180.00 Cap            
+J1         SMA-CON               6325mil       7235mil       6325mil       7235mil       6325mil       7235mil  T        180.00 SMA-Con        
+J2         USBB-CON-TH       6372.283mil       8185mil       6465mil       8185mil   6279.567mil   8234.213mil  T         90.00 USB-B          
+L1         0402                  6345mil       7435mil       6345mil       7435mil   6325.315mil       7435mil  T        360.00 Inductor       
+L2         0402                  6305mil       7475mil       6305mil       7475mil   6285.315mil       7475mil  T        360.00 Inductor       
+L3         0402                  6265mil       7435mil       6265mil       7435mil   6284.685mil       7435mil  T        180.00 Inductor       
+P2         Screw_Terminal_0.2"       4410mil       7910mil       4410mil       7910mil       4410mil       8010mil  T        270.00 Header 2       
+R1         RESC1608L             6270mil       8670mil       6270mil       8670mil   6240.472mil       8670mil  T        360.00 Res3           
+R2         RESC1608L             6270mil       8565mil       6270mil       8565mil   6240.472mil       8565mil  T        360.00 Res3           
+R3         RESC1608L             6080mil       8280mil       6080mil       8280mil   6050.472mil       8280mil  T        360.00 Res3           
+R4         0402                  6470mil       7480mil       6470mil       7480mil   6450.315mil       7480mil  T        360.00 Res3           
+R5         RESC1608L             5965mil       8280mil       5965mil       8280mil   5935.472mil       8280mil  T        360.00 Res3           
+RX         CAP0603               6430mil       8670mil       6430mil       8670mil   6464.449mil       8670mil  T        180.00 LED0           
+TX         CAP0603               6430mil       8565mil       6430mil       8565mil   6464.449mil       8565mil  T        180.00 LED0           
+U3         QFN50P400X400X95-20N       6305mil       7615mil       6305mil       7615mil    6344.37mil    7693.74mil  T        270.00 nRF24L01+      
+U4         SSOP28-0.65mm         5695mil       8275mil       5695mil       8275mil   5559.173mil   8441.339mil  T        360.00 FT232RL        
+U5         SOT23-5P285X122-5N       5075mil       7925mil       5075mil       7925mil   5037.598mil   7876.772mil  T         90.00 LP2981-3.3V    
+Y1         XTAL_32768Hz_SMT3       5650mil       7835mil       5650mil       7835mil   5699.213mil       7835mil  T        180.00 XTAL           
+Y2         XTAL-SPK-5032         6085mil       7615mil       6085mil       7615mil   6130.276mil   7542.165mil  T         90.00 16MHz          
+FB1        RES0603               6145mil       8220mil       6145mil       8220mil   6180.433mil       8220mil  T        180.00 FerriteBead    
+U2         S08                   5010mil       7390mil       5010mil       7390mil       4935mil   7287.638mil  T        180.00 SPI Serial Flash Memory
+

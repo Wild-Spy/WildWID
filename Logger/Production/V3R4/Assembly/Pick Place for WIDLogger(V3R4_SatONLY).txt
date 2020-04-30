@@ -1,0 +1,16 @@
+Designator Footprint               Mid X         Mid Y         Ref X         Ref Y         Pad X         Pad Y TB      Rotation Comment        
+
+J3         SMA+UFL           1357.984mil        513mil       1347mil        513mil   1339.126mil        513mil  T        360.00 SMA + U.FL     
+U12        SOIC127P600-8N11     55.053mil    2424.23mil     55.053mil    2424.23mil    130.053mil   2526.593mil  T        270.00 ADP2302ARDZ-5.0-R7
+R37        RES0603            -53.215mil   2621.081mil    -53.215mil   2621.081mil    -17.781mil   2621.081mil  T        180.00 Res            
+L2         INDP139135X59N     702.331mil   2258.492mil    702.331mil   2258.492mil    702.331mil   2044.909mil  T         90.00 Inductor       
+D7         DO-214AC               348mil   2335.362mil        348mil   2335.362mil        348mil       2233mil  T         90.00 Schottky       
+C44        CAP1206            635.592mil   2670.222mil    635.593mil   2670.222mil    575.553mil   2670.222mil  T        360.00 C_100N_0402_X5R_K_10
+C43        CAP1206            638.218mil   2784.846mil    638.219mil   2784.846mil    578.179mil   2784.846mil  T        360.00                
+C42        CAPM3216X18N       295.801mil   2668.636mil    295.801mil   2668.636mil    193.439mil   2668.636mil  T        360.00                
+C41        CAP1206            253.996mil   2827.774mil    253.996mil   2827.774mil    193.957mil   2827.774mil  T        360.00                
+C35        CAP0805            229.423mil   2335.016mil    229.423mil   2335.016mil    229.423mil    2296.63mil  T         90.00                
+J6         Iridium_9602_Data    881.181mil   1110.528mil        780mil        931mil    817.598mil    885.528mil  T        180.00 Iridium 9602_Data
+J7         Iridium_9602_ANT    881.181mil    517.614mil        780mil        931mil    931.181mil    567.614mil  T        180.00 Iridium 9602_ANT
+R21        RES0603               1380mil        959mil       1380mil        959mil       1380mil    923.567mil  T         90.00 Res            
+

@@ -1,0 +1,79 @@
+Designator Footprint               Mid X         Mid Y         Ref X         Ref Y         Pad X         Pad Y TB      Rotation Comment        
+
+Y3         XTAL-ABM3B        -213.693mil       3116mil   -213.693mil       3116mil   -166.449mil    3037.26mil  T         90.00 XTAL           
+U7         QFN20                 -535mil       2986mil       -535mil       2986mil    -574.37mil   2909.228mil  T         90.00 CC110L         
+R12        0402              -725.315mil   3029.402mil   -725.315mil   3029.402mil       -745mil   3029.402mil  T        360.00 R_56K_0402_F_1%
+L6         0402                  -362mil       2827mil       -362mil       2827mil   -342.315mil       2827mil  T        180.00 Inductor       
+J4         SMA+UFL               -560mil   3400.394mil       -560mil   3411.378mil       -560mil   3419.252mil  T        270.00 SMA + U.FL     
+C49        0402                  -205mil   3262.179mil       -205mil   3262.179mil   -185.315mil   3262.179mil  T        180.00 C_10P_0402_NP0_J_50
+C48        0402                  -215mil       2966mil       -215mil       2966mil   -234.685mil       2966mil  T        360.00 C_10P_0402_NP0_J_50
+C47        0402                  -425mil   3104.628mil       -425mil   3104.628mil   -405.315mil   3104.628mil  T        180.00 C_100N_0402_X5R_K_10
+C46        0402                  -378mil       3017mil       -378mil       3017mil   -358.315mil       3017mil  T        180.00 C_220P_0402_X7R_K_50
+C45        0402                  -400mil       2906mil       -400mil       2906mil   -380.315mil       2906mil  T        180.00 C_100N_0402_X5R_K_10
+C40        0402                  -400mil   2869.392mil       -400mil   2869.392mil   -380.315mil   2869.392mil  T        180.00 C_100N_0402_X5R_K_10
+C36        0402                  -670mil       3116mil       -670mil       3116mil       -670mil   3096.315mil  T         90.00 C_100N_0402_X5R_K_10
+C28        0402                  -725mil       3066mil       -725mil       3066mil   -705.315mil       3066mil  T        180.00 C_220P_0402_X7R_K_50
+C25        CAP0805               -219mil       2827mil       -219mil       2827mil   -180.614mil       2827mil  T        180.00 C_1U_0805_X5R  
+C10        0402                  -560mil   3267.628mil       -560mil   3267.628mil       -560mil   3247.943mil  T         90.00 C_22P_0402_NP0_?_5
+B2         0433BM15A0001E        -525mil   3144.943mil       -525mil   3119.352mil   -560.433mil   3170.534mil  T         90.00 0433BM15A0001E 
+R35        RES0603            469.041mil  -1327.683mil    469.041mil  -1327.683mil    469.041mil   -1292.25mil  T        270.00 Res            
+U10        SC-88A_(SC-70-5/SOT-353)    980.852mil  -1229.258mil    980.852mil  -1229.258mil    940.498mil  -1203.667mil  T          0.00 MC74VHC1G126   
+C14        0402               -99.636mil  -1317.943mil    -99.636mil  -1317.943mil   -119.321mil  -1317.943mil  T        360.00 C_100N_0402_X5R_K_10
+Y2         XTAL-ABM3B        -286.559mil  -1522.689mil   -286.559mil  -1522.689mil   -333.803mil  -1443.949mil  T        270.00 XTAL           
+U4         QFN20               35.262mil  -1394.148mil     35.262mil  -1394.148mil     74.632mil  -1317.376mil  T        270.00 CC2500         
+R4         0402               192.639mil   -1437.55mil    192.639mil   -1437.55mil    212.324mil   -1437.55mil  T        180.00 R_56K_0402_F_1%
+L3         0402                25.317mil   -1594.34mil     25.317mil   -1594.34mil      5.632mil   -1594.34mil  T        360.00 Inductor       
+C29        0402              -296.401mil  -1670.327mil   -296.401mil  -1670.327mil   -316.087mil  -1670.327mil  T        360.00 C_10P_0402_NP0_J_50
+C18        0402              -286.559mil  -1375.051mil   -286.559mil  -1375.051mil   -266.874mil  -1375.051mil  T        180.00 C_10P_0402_NP0_J_50
+C17        0402               -73.109mil  -1513.632mil    -73.109mil  -1513.632mil    -92.794mil  -1513.632mil  T        360.00 C_100N_0402_X5R_K_10
+C16        0402               -121.51mil  -1426.108mil    -121.51mil  -1426.108mil   -141.195mil  -1426.108mil  T        360.00 C_220P_0402_X7R_K_50
+C15        0402               -37.894mil  -1644.382mil    -37.894mil  -1644.382mil    -18.209mil  -1644.382mil  T        180.00 C_22P_0402_NP0_?_5
+C13        0402               -99.636mil  -1278.573mil    -99.636mil  -1278.573mil   -119.321mil  -1278.573mil  T        360.00 C_100N_0402_X5R_K_10
+C12        0402               134.396mil  -1524.534mil    134.396mil  -1524.534mil    134.396mil  -1504.849mil  T        270.00 C_100N_0402_X5R_K_10
+C11        0402               192.639mil  -1474.262mil    192.639mil  -1474.262mil    172.954mil  -1474.262mil  T        360.00 C_220P_0402_X7R_K_50
+C9         0402                35.813mil  -1711.541mil     35.813mil  -1711.541mil     35.813mil  -1691.856mil  T        270.00 C_22P_0402_NP0_?_5
+B1         Bauln0404           24.567mil  -1633.461mil     25.317mil  -1632.711mil     13.817mil  -1644.211mil  T        180.00 BD2425N50ATI   
+C22        Cap-5.0-12.5     -1189.502mil   1101.169mil  -1287.927mil   1101.169mil  -1091.077mil   1101.169mil  T          0.00 Cap Pol1       
+C1         CAP0603             45.813mil   -444.809mil     45.813mil   -444.809mil     11.364mil   -444.809mil  T        360.00 Cap            
+C2         CAP0603            213.136mil   -444.809mil    213.136mil   -444.809mil    247.585mil   -444.809mil  T        180.00 Cap            
+C3         CAP0603             50.734mil   -1199.73mil     50.734mil   -1199.73mil     85.183mil   -1199.73mil  T        180.00 Cap            
+C4         CAP0603           -313.439mil   -1002.88mil   -313.439mil   -1002.88mil   -313.439mil  -1037.329mil  T         90.00 Cap            
+C5         CAP0603               -3.4mil   -559.967mil       -3.4mil   -559.967mil    -37.848mil   -559.967mil  T        360.00 Cap            
+C6         CAP0603            316.483mil   -806.029mil    316.483mil   -806.029mil    316.483mil   -771.581mil  T        270.00 Cap            
+C7         CAP0603           1364.711mil   -185.951mil   1364.711mil   -185.951mil   1399.159mil   -185.951mil  T        180.00 Cap            
+C19        CAP1206          -1060.486mil   -441.856mil  -1060.486mil   -441.856mil  -1000.447mil   -441.856mil  T        180.00 Cap            
+C20        CAP0603          -1213.045mil   -678.077mil  -1213.045mil   -678.077mil  -1213.045mil   -712.526mil  T         90.00 Cap            
+C21        CAP1210           -868.557mil   -461.541mil   -868.557mil   -461.541mil   -925.644mil   -461.541mil  T        360.00 Cap            
+C23        CAP1206           -544.738mil  -1248.943mil   -544.738mil  -1248.943mil   -544.738mil  -1308.982mil  T         90.00 Cap            
+C24        CAP0603            665.892mil  -1406.423mil    665.892mil  -1406.423mil    665.892mil  -1440.872mil  T         90.00 Cap            
+C26        CAP0603            636.364mil  -1268.628mil    636.364mil  -1268.628mil    636.364mil  -1303.077mil  T         90.00 Cap            
+D2         ES1X_Diode       -1000.866mil   1469.362mil  -1000.866mil   1469.362mil  -1000.866mil   1401.449mil  T         90.00 Diode          
+D5         SOD-523F          -623.478mil  -1150.518mil   -623.478mil  -1150.518mil   -623.478mil  -1189.888mil  T         90.00 Schottky       
+FB1        RES0603            754.474mil  -1386.738mil    754.474mil  -1386.738mil    719.041mil  -1386.738mil  T        360.00 FerriteBead    
+USB        My_USB             579.272mil  -1768.429mil    579.277mil  -1768.429mil    516.277mil  -1650.319mil  T         90.00 USB-Mini       
+L4         8040Inductor      -799.659mil   -697.762mil   -799.659mil   -697.762mil   -909.896mil   -697.762mil  T        360.00 Inductor       
+MCU_STAT   CAP0603           -385.289mil   -791.266mil   -385.289mil   -791.266mil   -385.289mil   -825.715mil  T         90.00 LED            
+R1         RES0603           -352.809mil   -904.455mil   -352.809mil   -904.455mil   -317.376mil   -904.455mil  T        180.00 Res            
+R2         RES0603          -1036.864mil   -274.534mil  -1036.864mil   -274.534mil  -1001.431mil   -274.534mil  T        180.00 Res            
+R3         RES0603           -741.589mil   -274.534mil   -741.589mil   -274.534mil   -706.155mil   -274.534mil  T        180.00 Res            
+R10        RES0603           -1035.88mil   -796.187mil   -1035.88mil   -796.187mil  -1000.447mil   -796.187mil  T        180.00 Res            
+R13        RES0603            752.506mil  -1311.737mil    752.506mil  -1311.737mil    717.073mil  -1311.737mil  T        360.00 Res            
+R14        RES0603            752.505mil  -1252.681mil    752.505mil  -1252.681mil    787.938mil  -1252.681mil  T        180.00 Res            
+R15        RES0603            439.514mil  -1022.565mil    439.514mil  -1022.565mil    439.514mil   -987.132mil  T        270.00 Res            
+R16        RES0603           1137.348mil  -1721.384mil   1137.348mil  -1721.384mil   1137.348mil  -1685.951mil  T        270.00 Res3           
+R17        RES0603           1038.923mil  -1721.384mil   1038.923mil  -1721.384mil   1038.923mil  -1685.951mil  T        270.00 Res3           
+RX         CAP0603           1138.333mil  -1878.864mil   1138.333mil  -1878.864mil   1138.333mil  -1844.415mil  T        270.00 LED0           
+TX         CAP0603           1038.923mil  -1878.864mil   1038.923mil  -1878.864mil   1038.923mil  -1844.415mil  T        270.00 LED0           
+U1         TQFP-44pin-0.8mm      1.522mil    -884.77mil      1.522mil    -884.77mil   -219.935mil   -727.289mil  T        360.00 XMEGA32A4      
+U2         SO8N+SO8W         1305.656mil     60.112mil   1305.656mil     60.112mil   1230.656mil    -59.967mil  T         90.00 SPI Serial Flash Memory
+U6         SSOP28-0.65mm       693.45mil  -1020.398mil     693.45mil  -1020.398mil    859.789mil   -884.571mil  T        270.00 FT232RL        
+Y1         XTAL_32768Hz_SMT3    134.396mil   -533.392mil    134.396mil   -533.392mil    183.609mil   -533.392mil  T        180.00 XTAL           
+U5         QFN16_-_0.65mm_Pitch   -1075.25mil   -599.337mil   -1075.25mil   -599.337mil  -1036.864mil   -520.596mil  T        270.00 TPS62111       
+J1         SMA+UFL             36.246mil  -1866.935mil     36.246mil  -1855.951mil     36.246mil  -1848.077mil  T        270.00 SMA + U.FL     
+R5         RES0603          -1401.037mil   -274.534mil  -1401.037mil   -274.534mil  -1401.037mil     -239.1mil  T        270.00 Res            
+R6         RES0603          -1223.872mil   -126.896mil  -1223.872mil   -126.896mil  -1223.872mil    -91.463mil  T        270.00 Res            
+Q1         SOT23             -889.226mil   -235.163mil   -889.226mil   -235.163mil   -926.628mil   -197.762mil  T        360.00 N-MOS          
+Q6         SOT23            -1351.825mil   -126.896mil  -1351.825mil   -126.896mil  -1314.423mil   -164.297mil  T        180.00 N-MOS          
+C30        CAP0805           -416.785mil  -1317.841mil   -416.785mil  -1317.841mil   -416.785mil  -1356.226mil  T         90.00 C_1U_0805_X5R  
+L5         0402              -328.203mil    -1239.1mil   -328.203mil    -1239.1mil   -347.888mil    -1239.1mil  T        360.00 Inductor       
+

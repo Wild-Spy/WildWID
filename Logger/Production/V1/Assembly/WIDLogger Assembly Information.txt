@@ -1,0 +1,16 @@
+WIDLogger Assembly Information:
+
+PCB Size: 		60x41mm
+Two sided: 		No
+# SMT Parts: 		40
+# TH Parts: 		3
+Smallest Part Size: 	0402
+
+Extra Info:
+The following parts should not be fitted:
+C24
+P3
+J3
+PDI
+U1
+(Note that these have been removed from the pick and place file)

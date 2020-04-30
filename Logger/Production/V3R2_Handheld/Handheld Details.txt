@@ -1,0 +1,17 @@
+HW version: WID Reader/LoggerV3R2 (2013?)
+Modifications necessary:
+ - Replace L5 with 0R (0402)
+ - Replace D5 with 0R (0603)
+ - Power through BAT1 rather than Vin (3.6V MAX!)
+ - Remove R13 and R14
+ - Remove R15 and R35
+ - Orient the board so that up is towards the CC2500 and USB jacks, and right is towards the buck regulator and large electrolytic deccoupling cap.
+ - Jumper wire (thickish) from (the pin of R35 that is closer to R15 - furthest from (top) board edge) to (the pin of FB1 closest to (left) board edge).
+ - Jumper wire (wire wrapping wire) from the 3rd pin from the top right of U6 (F232RL) to the top pin of R15 (closest to R35).
+
+Input Voltage:
+ - Powered through BAT1 header (not Vin)
+ - Operates down to about 2.6V.  Don't give it anything above 3.6V!!!
+ - Ie run off 2 AA batteries (lithium AAs are ideal as each battery will only operate down to 1.3V and they have a much sharper cutoff (mAh rading on most batteries is given down to 1.1V wo you lose quite a bit with alkalines))
+ - Has a protection diode so putting the batteries in the wrong way won't blow it up.
+ - Note that behaviour is undefined for input voltages below 2.6V and voltages above 3.6V will probably cause irreparable harm to the device.
