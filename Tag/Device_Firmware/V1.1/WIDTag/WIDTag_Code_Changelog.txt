@@ -1,0 +1,174 @@
+WID Tag Changelog
+Created: 10/08/2011
+Updated: 18/10/2011
+Author: Matthew Cochrane
+Company: Wild Spy
+
+Version: V0.2.2
+	- Code Finished: 18/10/2011
+	- Workshop Implementation Date: ??/10/2011
+	- Firmware: WIDTagV0.2.2.hex 
+	- EEPROM:	WIDTag_EEPROM_V0.2.hex
+	- Fuses: H-0xD6, L-0xE2, E-0xF9(0x01)
+	
+	NOTES:
+	- MCU MUST still be a pico-power device (for BOD Disable feature). ATmega48PA/88PA/168PA/328P 
+	
+	TODO:
+	- Test this version in the workshop and see if we still get ESD problems when potting the WIDs.
+	
+	Description:
+	- Fifth code revision at workshop.  This code revision was written for two main purposes:
+		1. To counter still pervailant issues with the LED ON problem which are causing the device to 
+		   stop transmitting once potted.
+		2. To try out some Test Driven Development code writing techniques.  
+	- A new NRF24L01+ controller library was written to accomplish both of these requirements.  The new 
+	  NRF24L01P Library was written in eclipse using Test Driven Development techniques.
+		- The LED ON issue that was fixed in V0.2.1 was still buggy.  It sometimes caused the unit to get stuck 
+		  in a loop where if it got hit my too much static, every transmit thereafter would time out.  Instead of
+		  showing a solid LED ON, the unit would simply not transmit.  
+		- The above problem is improved upon in this version of the code.  In V0.2.1, the Tx timeout was based
+		  on the RTC timer and would only timeout after at leas one second had elapsed.  Now the Tx subroutime
+		  uses its own dedicated timer (TC0) which will timeout after 4ms (and yes this IS long enough, search 
+		  the datasheet for '4ms').  
+		- The new library boasts other improvements as well, the main one is that it has been very well tested
+		  using TDD techniques.
+		- The library is much better written then the previous version.  The code file should never need to be 
+		  modified (unless there is a bug).  It makes use of function pointers and link-time dependancies on
+		  low level IO functions so that they are not stuck in the main code file.  This results in low code
+		  coupling, easier to read code and more reliable code.
+	
+	Changes:
+	- New NRF24L01P Library written in eclipse using Test Driven Development techniques.
+	- The BOD activation voltage was changed from 2.7V to 1.8V.
+	- The 'N' command from the menu now reads all of the registers from the nordic chip and prints them out.
+	- The random feature was modified it no longer uses rand() but is based on the tag's ID.  Has not been 
+	  empirically tested but some basic TDD tests show that it should work fine.
+		
+--------------------------------------------------------------------------------------------------------------------
+
+Version: V0.2.1
+	- Code Finished: 13/08/2011
+	- Workshop Implementation Date: ??/08/2011
+	- Firmware: WIDTagV0.2.1.hex 
+	- EEPROM:	WIDTag_EEPROM_V0.2.hex
+	- Fuses: H-0xDD, L-0xE2, E-0xF9(0x01)
+	
+	NOTES:
+	- MCU MUST now be a pico-power device (for BOD Disable feature). ATmega48PA/88PA/168PA/328P 
+	
+	TODO:
+	- Test that the batteries still get decent life with 2.7V BOD reset.  Consider changing to 1.8V BOD reset?
+	
+	Description:
+	- Fourth code revision at workshop.  This code revision was written to fix the LED ON issue with the WIDs.
+	The previous code version (V0.2.1) was very short lived.  The first day it was brought into the workshop 
+	it was discovered that it had not resolved the LED ON issue which it was supposed to.  The software BOD
+	that was implemented in the previous version was left incorporated.  The LED ON problem was ultimately
+	overcome by first finally understanding its cause which could be traced back to its origin after creating. 
+	a repeatible test the caused the fault.  This test was performed by unleashing a large static discharge was 
+	the WID's antenna while the MCU was asleep and this consistantly yeilded the same result (~90% of the time). 
+	Nothing would happen until the WID woke up (which was at the correct time) and then the LED would turn on
+	solid and remain on indefinitely.  The root cause of this problem was that the nordic chip (nRF24L01+) was 
+	being reset (?) by a static discharge while the MCU was asleep and its SRAM contents was lost.  This meant 
+	that the chip wasn't properly configured next time the MCU woke up. When it did, the MCU sent tx data to the
+	nordic chip, told it to transmit the data and then waited for the nordic chip to flag that it had transmitted
+	that data however because it wasn't set up properly, the nordic chip never set this flag and therefore the 
+	MCU would be stuck in an infinite loop.  
+	- The situation was remedied by adding a timeout while the MCU waits for the TX complete flag to be set.  If
+	this timout occurs then we know that the nordic chip was probably reset, so the MCU then re-initialises it.
+	
+	
+	Changes:
+	- Fixed LED ON problem caused by static discharge.  Timeout implemented in function NRF24L01_TX_PAYLOAD.
+	- Changes from V0.2.0 listed below as they are very recent and because V0.2.0 should never be used!
+		- Fuses changed so that BOD is activated (2.7V reset cutoff).
+		- Implemented software BOD feature (BOD on in active mode, off in sleep mode).
+		- EEPROM locations shifted.  WID_ID moved from address 0x00, all addresses shifted by 0x10 and addresses 
+		  spread out more so no two variables are directly adjacent.
+		- New EEPROM file (WIDTag_EEPROM_V0.2.hex), also changed file format from raw to intel hex.
+		
+--------------------------------------------------------------------------------------------------------------------
+
+Version: V0.2.0
+	- Code Finished: 10/08/2011
+	- Workshop Implementation Date: 12/08/2011
+	- Firmware: WIDTagV0.2.hex 
+	- EEPROM:	WIDTag_EEPROM_V0.2.hex
+	- Fuses: H-0xDD, L-0xE2, E-0xF9
+	
+	NOTES:
+	- LED ON PROBLEM STILL NOT FIXED!!! USE V0.2.1!! DO NOT USE THIS VERSION OF CODE!!!
+	- MCU MUST now be a pico-power device (for BOD Disable feature). ATmega48PA/88PA/168PA/328P 
+	- Found bugs in this version almost immediately once implemented in the workshop!
+	
+	TODO:
+	- Test that the batteries still get decent life with 2.7V BOD reset.  Consider changing to 1.8V BOD reset?
+	
+	Description:
+	- Third code revision at workshop.  This code revision was written to combat the problems we are experiencing
+	with WIDs locking up (LED stuck on) and EEPROM values being erronously overwritten.  The theory is that these
+	phenomenon are being caused by the microprocessor going rogue as a result of its power lines droping below its
+	minimum operating voltage.  The Brown Out Detector on the ATMEGA88PA uses far too much power (20-30uA) to be a
+	viable solution to this problem alone however on Pico-power devices (ATMEGA**P/ATMEGA**PA) there is a software
+	BOD feature which allows the BOD to be enabled when the MCU is in active mode and disabled when it is in any
+	sleep mode.  This greatly reduces the energy cost of having the BOD active to the point where it makes 
+	essentially no difference to the devices average current consumption (<0.1% difference).  The BOD still does
+	it's job as it's active in the MCUs active mode (is activated and stabilised BEFORE the MCU executes any 
+	instructions) and does not need to be active in sleep mode as the CPU is not executing instructions and thus
+	the chances of data corruption are greatly reduced.  It is still possible that some memory (RAM) locations 
+	are corrupted while in sleep mode if the voltage drops too low.  Not sure HOW possible this is but it may
+	be worth resetting the MCU once or twice a day in case of any corruption. 
+	- The first byte in EEPROM is more prone to being overwritten if a power supply failure occurs.  Even though
+	the chances of this happening are GREATLY reduced with the BOD enabled the EEPROM locations were shifted to
+	further reduce the risk of this impornt data being corrupted.
+	
+	Changes:
+	- Fuses changed so that BOD is activated (2.7V reset cutoff).
+	- Implemented software BOD feature (BOD on in active mode, off in sleep mode).
+	- EEPROM locations shifted.  WID_ID moved from address 0x00, all addresses shifted by 0x10 and addresses 
+	  spread out more so no two variables are directly adjacent.
+	- New EEPROM file (WIDTag_EEPROM_V0.2.hex), also changed file format from raw to intel hex.
+	
+--------------------------------------------------------------------------------------------------------------------
+	
+Version: V0.1.2
+	- Code Finished: ??/??/2011
+	- Workshop Implementation Date: ??/??/2011
+	- Firmware: WIDTagV0.1.2.hex 
+	- EEPROM:	WIDTag_EEPROM_V0.1.eeprom
+	- Fuses: H-0xDF, L-0xE2, E-0xF9
+	
+	Description:
+	- Second code revision at workshop.
+	
+	Changes:
+	- Fixed LED-on problem (can't remember how.. update this when you remember!)
+	
+--------------------------------------------------------------------------------------------------------------------
+	
+Version: V0.1.1
+	- Code Finished: ??/??/2011
+	- Workshop Implementation Date: ??/??/2011
+	- Firmware: WIDTagV0.1.1.hex 
+	- EEPROM:	WIDTag_EEPROM_V0.1.eeprom
+	- Fuses: H-0xDF, L-0xE2, E-0xF9
+	
+	Description:
+	- First code revision.
+	
+	Changes:
+	- Not sure... :s
+
+--------------------------------------------------------------------------------------------------------------------
+	
+Version: V0.1.0
+	- Firmware: WIDTagV0.1.0.hex 
+	- EEPROM:	WIDTag_EEPROM_V0.1.eeprom
+	- Fuses: H-0xDF, L-0xE2, E-0xF9
+	
+	Description:
+	- Original code version (documented after the fact)
+
+--------------------------------------------------------------------------------------------------------------------
+	
