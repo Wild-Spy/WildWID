@@ -1,0 +1,30 @@
+Designator Footprint               Mid X         Mid Y         Ref X         Ref Y         Pad X         Pad Y TB      Rotation Comment        
+
+U2         32-MLF                8300mil       3980mil       8300mil       3980mil   8368.898mil   4078.425mil  T        270.00 ATMEGA168PV    
+C7         0402                  8145mil       4120mil       8145mil       4120mil       8145mil   4100.315mil  T         90.00 Cap            
+C6         0402                  8090mil       4220mil       8090mil       4220mil   8070.315mil       4220mil  T          0.00 Cap            
+Y1         XTAL_RTC_SMT          8295mil       4200mil       8295mil       4200mil   8170.984mil   4182.283mil  T          0.00 XTAL           
+Y2         XTAL-SPK-5032         8300mil       4085mil       8300mil       4085mil   8372.835mil   4039.724mil  B        180.00 16MHz          
+U3         QFN50P400X400X95-20N       8260mil       3880mil       8260mil       3880mil    8181.26mil    3840.63mil  B        360.00 nRF24L01+      
+R4         0402                  8380mil       3720mil       8380mil       3720mil       8380mil   3739.685mil  B        270.00 Res3           
+R2         0402                  8381mil       3800mil       8381mil       3800mil       8381mil   3819.685mil  T        270.00 Res1           
+LED        CAP0603               8340mil       3720mil       8340mil       3720mil   8305.551mil       3720mil  T        360.00 LED2           
+L3         0402                  8440mil       3925mil       8440mil       3925mil       8440mil   3905.315mil  B         90.00 Inductor       
+L2         0402                  8400mil       3885mil       8400mil       3885mil       8400mil   3904.685mil  B        270.00 Inductor       
+L1         0402                  8440mil       3845mil       8440mil       3845mil       8440mil   3864.685mil  B        270.00 Inductor       
+C18        0402                  8445mil       4055mil       8445mil       4055mil       8445mil   4074.685mil  B        270.00 cap            
+C17        0402                  8145mil       4105mil       8145mil       4105mil       8145mil   4085.315mil  B         90.00 cap            
+C16        0402                  8520mil       3965mil       8520mil       3965mil       8520mil   3984.685mil  B        270.00 cap            
+C15        0402                  8480mil       3965mil       8480mil       3965mil       8480mil   3984.685mil  B        270.00 cap            
+C14        0402                  8520mil       3845mil       8520mil       3845mil       8520mil   3825.315mil  B         90.00 cap            
+C13        0402                  8480mil       3845mil       8480mil       3845mil       8480mil   3864.685mil  B        270.00 cap            
+C12        0402                  8340mil       3720mil       8340mil       3720mil       8340mil   3700.315mil  B         90.00 cap            
+C11        0402                  8300mil       3720mil       8300mil       3720mil       8300mil   3700.315mil  B         90.00 cap            
+C10        CAP0603               8220mil       3720mil       8220mil       3720mil   8185.551mil       3720mil  B        360.00 cap            
+C9         0402                  8140mil       3780mil       8140mil       3780mil       8140mil   3799.685mil  B        270.00 cap            
+C8         0402                  8320mil       3820mil       8320mil       3820mil   8339.685mil       3820mil  T        180.00 Cap            
+C5         0402                  8340mil       4130mil       8340mil       4130mil   8359.685mil       4130mil  T        180.00 Cap            
+C4         0402                  8240mil       3820mil       8240mil       3820mil   8220.315mil       3820mil  T        360.00 Cap            
+C3         0402                  8250mil       4130mil       8250mil       4130mil   8230.315mil       4130mil  T        360.00 Cap            
+C2         CAP0805               8200mil       3720mil       8200mil       3720mil   8161.614mil       3720mil  T        360.00 Cap Pol1       
+ANT1       2.45GHZ-CHP-ANT       8605mil       3995mil       8605mil       3995mil       8605mil       3865mil  B         90.00 Antenna        

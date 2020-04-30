@@ -1,0 +1,28 @@
+Wireless ID Board Specifications
+
+Layers: 		4
+Thickness: 		0.6mm
+Blind/Burried Vias: 	No
+Surface Finish:		HAL Pb/Sn
+Copper Finish:		1oz
+Solder Mask:		Both Sides
+Silk Screen:		Both Sides
+Min Trace:		6mil
+Min Hole:		12mil
+PCB Material:		FR4
+
+Gerber Files:
+Bottom Copper Layer 	- Wireless ID.GBL
+Bottom Solder Mask 	- Wireless ID.GBS
+Bottom Silkscreen 	- Wireless ID.GBO
+Internal Plane 1	- Wireless ID.GP1
+Internal Plane 2	- Wireless ID.GP2
+Top Copper Layer	- Wireless ID.GTL
+Top Solder Mask		- Wireless ID.GTS
+Top Silkscreen		- Wireless ID.GTO
+Board Outline		- Wireless ID.GKO
+
+Also, for Solder Paste Stencils:
+(Copies of these files are also included in the 'Assembly Files' folder)
+Top Paste Layer		- Wireless ID.GTP
+Bottom Paste Layer	- Wireless ID.GBP
