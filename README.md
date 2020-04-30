@@ -2,7 +2,9 @@
 An open-source active RFID system for wildlife research
 
 ## Requirements
-Device firmware is written in C and requires the AVR/Atmel Studio IDE - https://www.microchip.com/mplab/avr-support/avr-and-sam-downloads-archive
+Some device firmware is written in C and requires the AVR/Atmel Studio IDE - https://www.microchip.com/mplab/avr-support/avr-and-sam-downloads-archive
+
+Some device firmware is written in C and requires the IAR Embedded Workbench for 8051 IDE - https://www.iar.com/iar-embedded-workbench/#!?architecture=8051
 
 Programming software is written in Visual Basic and requires the Microsoft Visual Studio IDE - https://visualstudio.microsoft.com
 
