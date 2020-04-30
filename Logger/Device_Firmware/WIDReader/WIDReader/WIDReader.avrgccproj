@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>5.0</ProjectVersion>
+    <ProjectGuid>{4c0b97a9-6f44-4dbe-a74a-d19782affb66}</ProjectGuid>
+    <avrdevice>ATxmega32A4</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputFile>$(MSBuildProjectName).elf</OutputFile>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AvrGccProjectExtensions>
+    </AvrGccProjectExtensions>
+    <AssemblyName>WIDReader</AssemblyName>
+    <Name>WIDReader</Name>
+    <RootNamespace>WIDReader</RootNamespace>
+    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
+    <avrtoolinterface>PDI</avrtoolinterface>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolName>AVR Simulator</ToolName>
+      <ToolNumber>
+      </ToolNumber>
+      <Channel>
+        <host>127.0.0.1</host>
+        <port>50324</port>
+        <ssl>False</ssl>
+      </Channel>
+    </com_atmel_avrdbg_tool_simulator>
+    <com_atmel_avrdbg_tool_avrdragon>
+      <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
+      <ToolName>AVR Dragon</ToolName>
+      <ToolNumber>00A20000865C</ToolNumber>
+      <Channel>
+        <host>127.0.0.1</host>
+        <port>50362</port>
+        <ssl>False</ssl>
+      </Channel>
+      <ToolOptions>
+        <InterfaceType>PDI</InterfaceType>
+        <InterfaceProperties>
+          <JtagDbgClock>1000000</JtagDbgClock>
+          <JtagProgClock>1000000</JtagProgClock>
+          <IspClock>150000</IspClock>
+          <JtagInChain>false</JtagInChain>
+          <JtagDevicesBefore>0</JtagDevicesBefore>
+          <JtagDevicesAfter>0</JtagDevicesAfter>
+          <JtagInstrBitsBefore>0</JtagInstrBitsBefore>
+          <JtagInstrBitsAfter>0</JtagInstrBitsAfter>
+        </InterfaceProperties>
+      </ToolOptions>
+    </com_atmel_avrdbg_tool_avrdragon>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <UseGlobalToolchain>True</UseGlobalToolchain>
+    <GlobalToolchainPath>C:\Program Files (x86)\Atmel\AVR Studio 5.0\AVR ToolChain\bin</GlobalToolchainPath>
+    <ToolchainDirPath />
+    <MakeDirPath />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>None</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+      </AvrGcc>
+    </ToolchainSettings>
+    <MemorySettings>
+    </MemorySettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>F_CPU=12000000UL</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.compiler.miscellaneous.OtherFlags>-std=gnu99</avrgcc.compiler.miscellaneous.OtherFlags>
+        <avrgcc.assembler.debugging.DebugLevel>Default (-g2)</avrgcc.assembler.debugging.DebugLevel>
+      </AvrGcc>
+    </ToolchainSettings>
+    <MemorySettings>
+      <MemorySegments>
+        <InitialStack IsEnabled="0">
+          <Address>0x1000</Address>
+        </InitialStack>
+      </MemorySegments>
+    </MemorySettings>
+    <GenerateHexFile>True</GenerateHexFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Libs\avr_compiler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\clksys_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\clksys_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\eeprom_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\eeprom_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\GUI.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\GUI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\Keypad.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\KeyPad.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\lowpower_macros.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_NRF24L01.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_NRF24L01.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_RTC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_RTC.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_SerFlash.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_SerFlash.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_USART.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_USART.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\M_List.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\M_List.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\NHDC160100DiZ.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\NHDC160100DiZ.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\TC_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\TC_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Version.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="WIDReader.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="WIDReader.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Libs" />
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\AvrGCC.targets" />
+</Project>

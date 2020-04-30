@@ -1,0 +1,1436 @@
+/*
+ * NHDC160100DiZ.c
+ *
+ *  Created on: 05/04/2011
+ *      Author: Matthew Cochrane
+ *     Company: Wild Spy
+ *     Includes Modified code from: David V. Fansler
+ *     URL: http://www.dv-fansler.com/David/128x128GraphicsDisplay.htm
+ *
+ */
+
+#include "NHDC160100DiZ.h"
+/*****************************************************/
+/*
+NHD-C160100DiZ.c
+Program for writing to Newhaven Display Graphic COG - I2C interface
+
+(c)2009 Curt Lagerstam - Newhaven Display International, LLC.
+
+ 	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+ */
+
+extern char s[80];
+
+//Declare Variables
+unsigned char vopcode;
+unsigned char Ra_Rb;
+int i, col;
+long page;
+unsigned char g; //, a;
+char *m;
+char conv_buff[159];
+unsigned char col_count;
+char char_con[2];
+uint8_t LCD_Line = 0;
+TWI_Master_t twiMaster;    /*!< TWI master module. */
+
+#ifndef ThisIsHereSoICanMinimiseTheGroup
+// This list of char is used to display comman ASCII charaters
+char char_space[] PROGMEM = {0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+char char_pound[] PROGMEM = {0x07,0x00,0x28,0xFE,0x28,0xFE,0x28,0x00};
+char char_0[] PROGMEM = {0x07,0x00,0x7C,0xA2,0x92,0x8A,0x7C,0x00};
+char char_1[] PROGMEM = {0x07,0x00,0x00,0x84,0xFE,0x80,0x00,0x00};
+char char_2[] PROGMEM = {0x07,0x00,0x84,0xC2,0xA2,0x92,0x8C,0x00};
+char char_3[] PROGMEM = {0x07,0x00,0x42,0x82,0x8A,0x96,0x62,0x00};
+char char_4[] PROGMEM = {0x07,0x00,0x30,0x28,0x24,0xFE,0x20,0x00};
+char char_5[] PROGMEM = {0x07,0x00,0x4E,0x8A,0x8A,0x8A,0x72,0x00};
+char char_6[] PROGMEM = {0x07,0x00,0x78,0x94,0x92,0x92,0x60,0x00};
+char char_7[] PROGMEM = {0x07,0x00,0x02,0xE2,0x12,0x0A,0x06,0x00};
+char char_8[] PROGMEM = {0x07,0x00,0x6C,0x92,0x92,0x92,0x6C,0x00};
+char char_9[] PROGMEM = {0x07,0x00,0x0C,0x92,0x92,0x52,0x3C,0x00};
+char char_DQ[] PROGMEM = {0x05,0x00,0x0E,0x00,0x0E,0x00};
+char char_SQ[] PROGMEM = {0x04,0x00,0x0A,0x06,0x00};
+char char_COLN[] PROGMEM = {0x04,0x00,0x6C,0x6C,0x00};
+char char_DEG[] PROGMEM = {0x05,0x00,0x0E,0x0A,0x0E,0x00};
+char char_BS[] PROGMEM = {0x07,0x00,0x40,0x20,0x10,0x08,0x04,0x00};
+char char_BLK[] PROGMEM = {0x07,0xFE,0xFE,0xFE,0xFE,0xFE,0xFE,0x00};
+char char_CHK[] PROGMEM = {0x07,0x00,0x40,0x80,0x60,0x18,0x04,0x00};
+char char_AMP[] PROGMEM = {0x07,0x00,0x64,0x92,0xF2,0x82,0x7C,0x00};
+char char_CLPREN[] PROGMEM = {0x05,0x00,0x82,0x44,0x38,0x00};
+char char_RA[] PROGMEM = {0x07,0x00,0x10,0x10,0x54,0x38,0x10,0x00};
+char char_A[] PROGMEM = {0x07,0x00,0xFC,0x22,0x22,0x22,0xFC,0x00};
+char char_B[] PROGMEM = {0x07,0x00,0xFE,0x92,0x92,0x92,0x6C,0x00};
+char char_C[] PROGMEM = {0x07,0x00,0x7C,0x82,0x82,0x82,0x44,0x00};
+char char_D[] PROGMEM = {0x07,0x00,0xFE,0x82,0x82,0x44,0x38,0x00};
+char char_E[] PROGMEM = {0x07,0x00,0xFE,0x92,0x92,0x92,0x82,0x00};
+char char_F[] PROGMEM = {0x07,0x00,0xFE,0x12,0x12,0x12,0x02,0x00};
+char char_G[] PROGMEM = {0x07,0x00,0x7C,0x82,0x92,0x92,0xF4,0x00};
+char char_H[] PROGMEM = {0x07,0x00,0xFE,0x10,0x10,0x10,0xFE,0x00};
+char char_I[] PROGMEM = {0x07,0x00,0x00,0x82,0xFE,0x82,0x00,0x00};
+char char_J[] PROGMEM = {0x07,0x00,0x40,0x80,0x82,0x7E,0x02,0x00};
+char char_K[] PROGMEM = {0x07,0x00,0xFE,0x10,0x28,0x44,0x82,0x00};
+char char_L[] PROGMEM = {0x07,0x00,0xFE,0x80,0x80,0x80,0x80,0x00};
+char char_M[] PROGMEM = {0x07,0x00,0xFE,0x04,0x18,0x04,0xFE,0x00};
+char char_N[] PROGMEM = {0x07,0x00,0xFE,0x08,0x10,0x20,0xFE,0x00};
+char char_O[] PROGMEM = {0x07,0x00,0x7C,0x82,0x82,0x82,0x7C,0x00};
+char char_P[] PROGMEM = {0x07,0x00,0xFE,0x12,0x12,0x12,0x0C,0x00};
+char char_Q[] PROGMEM = {0x07,0x00,0x7C,0x82,0xA2,0x42,0xBC,0x00};
+char char_R[] PROGMEM = {0x07,0x00,0xFE,0x12,0x32,0x52,0x8C,0x00};
+char char_S[] PROGMEM = {0x07,0x00,0x8C,0x92,0x92,0x92,0x62,0x00};
+char char_T[] PROGMEM = {0x07,0x00,0x02,0x02,0xFE,0x02,0x02,0x00};
+char char_U[] PROGMEM = {0x07,0x00,0x7E,0x80,0x80,0x80,0x7E,0x00};
+char char_V[] PROGMEM = {0x07,0x00,0x3E,0x40,0x80,0x40,0x3E,0x00};
+char char_W[] PROGMEM = {0x07,0x00,0x7E,0x80,0x70,0x80,0x7E,0x00};
+char char_X[] PROGMEM = {0x07,0x00,0xC6,0x28,0x10,0x28,0xC6,0x00};
+char char_Y[] PROGMEM = {0x07,0x00,0x0E,0x10,0xE0,0x10,0x0E,0x00};
+char char_Z[] PROGMEM = {0x07,0x00,0xC2,0xA2,0x92,0x8A,0x86,0x00};
+char char_a[] PROGMEM = {0x07,0x00,0x40,0xA8,0xA8,0xA8,0xF0,0x00};
+char char_b[] PROGMEM = {0x07,0x00,0xFE,0x90,0x88,0x88,0x70,0x00};
+char char_c[] PROGMEM = {0x07,0x00,0x70,0x88,0x88,0x88,0x40,0x00};
+char char_d[] PROGMEM = {0x07,0x00,0x70,0x88,0x88,0x90,0xFE,0x00};
+char char_e[] PROGMEM = {0x07,0x00,0x70,0xA8,0xA8,0xA8,0x30,0x00};
+char char_f[] PROGMEM = {0x07,0x00,0x10,0xfc,0x12,0x02,0x04,0x00};
+char char_g[] PROGMEM = {0x07,0x00,0x18,0xA4,0xA4,0xA4,0x7C,0x00};
+char char_h[] PROGMEM = {0x07,0x00,0xFE,0x10,0x08,0x08,0xF0,0x00};
+char char_i[] PROGMEM = {0x05,0x00,0x88,0xFA,0x80,0x00};
+char char_j[] PROGMEM = {0x06,0x00,0x40,0x80,0x88,0x7A,0x00};
+char char_k[] PROGMEM = {0x06,0x00,0xFE,0x20,0x50,0x88,0x00};
+char char_l[] PROGMEM = {0x05,0x00,0x82,0xFE,0x80,0x00};
+char char_m[] PROGMEM = {0x07,0x00,0xF8,0x08,0x30,0x08,0xF0,0x00};
+char char_n[] PROGMEM = {0x07,0x00,0xF8,0x10,0x08,0x08,0xF0,0x00};
+char char_o[] PROGMEM = {0x07,0x00,0x70,0x88,0x88,0x88,0x70,0x00};
+char char_p[] PROGMEM = {0x07,0x00,0xF8,0x28,0x28,0x28,0x10,0x00};
+char char_q[] PROGMEM = {0x07,0x00,0x10,0x28,0x28,0x30,0xF8,0x00};
+char char_r[] PROGMEM = {0x07,0x00,0xF8,0x10,0x08,0x08,0x10,0x00};
+char char_s[] PROGMEM = {0x07,0x00,0x90,0xA8,0xA8,0xA8,0x40,0x00};
+char char_t[] PROGMEM = {0x07,0x00,0x08,0x7E,0x88,0x80,0x40,0x00};
+char char_u[] PROGMEM = {0x07,0x00,0x78,0x80,0x80,0x40,0xF8,0x00};
+char char_v[] PROGMEM = {0x07,0x00,0x38,0x40,0x80,0x40,0x38,0x00};
+char char_w[] PROGMEM = {0x07,0x00,0x78,0x80,0x60,0x80,0x78,0x00};
+char char_x[] PROGMEM = {0x07,0x00,0x88,0x50,0x20,0x50,0x88,0x00};
+char char_y[] PROGMEM = {0x07,0x00,0x18,0xa0,0xa0,0xa0,0x78,0x00};
+char char_z[] PROGMEM = {0x07,0x00,0x88,0xC8,0xA8,0x98,0x88,0x00};
+char char_Exe[] PROGMEM = {0x03,0x00,0x9E,0x00};
+char char_Dol[] PROGMEM = {0x07,0x00,0x48,0x54,0xFE,0x54,0x24,0x00};
+char char_PerC[] PROGMEM = {0x07,0x00,0x46,0x26,0x10,0xC8,0xC4,0x00};
+char char_UpHat[] PROGMEM = {0x07,0x00,0x08,0x04,0x02,0x04,0x08,0x00};
+char char_Amp[] PROGMEM = {0x07,0x00,0x6C,0x92,0xAA,0x44,0x80,0x00};
+char char_Astr[] PROGMEM = {0x07,0x00,0x28,0x10,0x7C,0x10,0x28,0x00};
+char char_OpPren[] PROGMEM = {0x05,0x00,0x38,0x44,0x82,0x00};
+char char_Minus[] PROGMEM = {0x07,0x00,0x10,0x10,0x10,0x10,0x10,0x00};
+char char_UnScr[] PROGMEM = {0x07,0x00,0x80,0x80,0x80,0x80,0x80,0x00};
+char char_Plus[] PROGMEM = {0x07,0x00,0x10,0x10,0x7C,0x10,0x10,0x00};
+char char_Eq[] PROGMEM = {0x07,0x00,0x28,0x28,0x28,0x28,0x28,0x00};
+char char_Period[] PROGMEM = {0x04,0x00,0xC0,0xC0,0x00};
+char char_Ques[] PROGMEM = {0x07,0x00,0x04,0x02,0xA2,0x12,0x0C,0x00};
+char char_GRT[] PROGMEM = {0x06,0x00,0x82,0x44,0x28,0x10,0x00};
+char char_LT[] PROGMEM = {0x06,0x00,0x10,0x28,0x44,0x82,0x00};
+char char_Coma[] PROGMEM = {0x04,0x00,0xA0,0x60,0x00};
+char char_Semi[] PROGMEM = {0x04,0x00,0xAC,0x6C,0x00};
+char char_UP_DWN[] PROGMEM = {0x07,0x00,0x24,0x42,0xFF,0x42,0x24,0x00};
+char char_bat_6[] PROGMEM = {0x10,0xFF,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0xFF,0x18};
+char char_bat_5[] PROGMEM = {0x10,0xFF,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0x81,0x81,0xFF,0x18};
+char char_bat_4[] PROGMEM = {0x10,0xFF,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0x81,0x81,0x81,0x81,0xFF,0x18};
+char char_bat_3[] PROGMEM = {0x10,0xFF,0x81,0xBD,0x81,0xBD,0x81,0xBD,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0xFF,0x18};
+char char_bat_2[] PROGMEM = {0x10,0xFF,0x81,0xBD,0x81,0xBD,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0xFF,0x18};
+char char_bat_1[] PROGMEM = {0x10,0xFF,0x81,0xBD,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0xFF,0x18};
+char char_bat_0[] PROGMEM = {0x10,0xFF,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0x81,0xFF,0x18};
+
+char WSReaderLogo [] PROGMEM = {
+		0xA0, 0x00, 0x30, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0xC0,
+		0xE0, 0xC0, 0xC0, 0xC0, 0xE0, 0xF0, 0xF8, 0xF8, 0xFC, 0xFC, 0xFC, 0xFC, 0xF2, 0xFE, 0xFE, 0xFE,
+		0xFC, 0xF8, 0xF8, 0xF0, 0xE0, 0xE0, 0xC0, 0xC0, 0xC0, 0x80, 0x80, 0x00, 0x80, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x60, 0x60, 0x30, 0xB0, 0xF0, 0x20, 0x80, 0xC0,
+		0x60, 0x00, 0xC0, 0x60, 0x00, 0x80, 0x00, 0x80, 0xC0, 0xE0, 0x00, 0x00, 0x00, 0x00, 0x80, 0xC0,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0xE0, 0x60, 0x20, 0x30, 0x30, 0x70, 0x30, 0x00, 0x00,
+		0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0xC0, 0xE0, 0xE0, 0xE0, 0xF0, 0xF8, 0xF8, 0xF8, 0xFC, 0xFC,
+		0xFC, 0xFC, 0xE4, 0xE4, 0xC0, 0xC0, 0xC0, 0xC0, 0xC0, 0xC0, 0xE0, 0xE0, 0xC0, 0xC0, 0x80, 0x80,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0xF0, 0xF8, 0x7C, 0x3E, 0x1F, 0x1F,
+		0x0F, 0x07, 0x07, 0x03, 0x03, 0x83, 0xE3, 0xF3, 0xFB, 0xFD, 0xFF, 0xFF, 0xFF, 0x7F, 0x1F, 0x1F,
+		0x1F, 0x7F, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xDF, 0x1F, 0x3F, 0x3F, 0x7F, 0xFE,
+		0xFC, 0xF8, 0xF0, 0xE0, 0xC0, 0x00, 0x00, 0x00, 0x18, 0x1C, 0x1A, 0x0D, 0x06, 0x1F, 0x13, 0x19,
+		0x0C, 0x07, 0x09, 0x1E, 0x12, 0x09, 0x1E, 0x13, 0x11, 0x08, 0x1C, 0x1A, 0x0A, 0x1E, 0x13, 0x08,
+		0x00, 0x00, 0x00, 0x00, 0x10, 0x18, 0x11, 0x11, 0x19, 0x19, 0x1A, 0x0E, 0xC4, 0x34, 0x1E, 0x17,
+		0x1A, 0x16, 0x0A, 0x0C, 0xD6, 0x6B, 0x3C, 0x16, 0x0A, 0x00, 0x00, 0x00, 0xF0, 0xF0, 0xF8, 0xFC,
+		0xFC, 0xFE, 0xFE, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x7F, 0x1F,
+		0x1F, 0x3F, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xF3, 0xC3, 0x83, 0x03, 0x07, 0x07, 0x0F, 0x0F,
+		0x1F, 0x3E, 0x3E, 0xFC, 0xF0, 0xF0, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x99, 0xFF, 0xFF, 0x07, 0x01, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF9, 0xF8, 0xFC, 0xFC, 0xFC,
+		0xFC, 0xFC, 0xFC, 0xF9, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x00,
+		0x01, 0x03, 0x07, 0x1F, 0xFF, 0xFF, 0xFE, 0xFE, 0xFC, 0xF0, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0xE0, 0xF8, 0xFE, 0xFF, 0x0F, 0x07, 0x03, 0x01,
+		0x01, 0x00, 0x00, 0x3C, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0xF8, 0xFC, 0xFC,
+		0xFC, 0xFC, 0xF8, 0xF8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7C, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x03, 0xFF, 0xFF, 0xDF, 0x1B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x07, 0x1F, 0x3E, 0x70, 0x80, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x01, 0x07, 0x1F, 0x3F, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x7F, 0x3F, 0x0F, 0x07, 0x01, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0xC0, 0xF0, 0xFF, 0xFF, 0xFF, 0x7F, 0x3F, 0x1F, 0x07, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x0F, 0x1F, 0x7F, 0xFF, 0xDF, 0x7F, 0xFC, 0xE0, 0x80, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x03, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x7F, 0x3F, 0x0F, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0xC0, 0x78, 0x3F, 0x0F, 0x03, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x0F, 0x0E, 0x34, 0x68,
+		0xD0, 0xE0, 0x80, 0xC0, 0x00, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03,
+		0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x80, 0x80, 0xC0, 0xC0, 0xE0, 0x60, 0x70, 0x38, 0x38, 0x1E,
+		0x1F, 0x07, 0x03, 0x04, 0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03, 0x05, 0x07, 0x1F, 0x7E,
+		0x5C, 0xB8, 0x38, 0x30, 0x60, 0xE0, 0xC0, 0xC0, 0x80, 0x80, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03,
+		0x03, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0xC0, 0x80, 0x20, 0x40, 0x50,
+		0x28, 0x14, 0x0F, 0x0F, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x01, 0x01, 0x03, 0x00, 0x00, 0x01, 0x01, 0x06, 0x04, 0x04, 0x02, 0x02, 0x02,
+		0x02, 0x02, 0x00, 0x01, 0x01, 0x01, 0x05, 0x02, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x00, 0x01, 0x02, 0x07, 0x01, 0x00, 0x06, 0x06,
+		0x02, 0x02, 0x06, 0x04, 0x04, 0x01, 0x01, 0x01, 0x00, 0x03, 0x03, 0x03, 0x00, 0x01, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+#endif
+
+/*****************************************************************************
+Name:          InitDisplay()
+Parameters:    none
+Returns:       none
+Description:   Sets up I/O and performs a general hardware reset of the LCD
+*****************************************************************************/
+void LCD_InitDisplay(void)
+{
+
+	SCR_SETUP();
+	SCR_CS_HI();
+	SCR_CS_LO();
+	PORTC.OUTCLR = (1<<SDABIT)|(1<<SCLBIT);
+	SCR_RST_HI();
+	_delay_ms(10);
+	SCR_RST_LO();
+	_delay_ms(10);
+	SCR_RST_HI();
+	_delay_ms(10);
+
+	return;
+}
+
+/*****************************************************************************
+Name:        	LCD_write_Ctrl(unsigned char datum)
+Parameters:  	datum		data to be written to command mode of LCD
+Returns:        none
+Description:    This function writes control codes to LCD
+*****************************************************************************/
+void LCD_write_Ctrl(unsigned char datum)
+{
+
+	//TODO[ ]: Is this correct?
+
+	I2C_Start();
+	I2C_out(COMSEND);
+	I2C_out(datum);
+	I2C_Stop();
+
+	/*DI_PIN = LOW;				// Select control
+	EN_PIN = LOW;				// Enable LCD
+	DATA_PORT = datum;			// Ouput control data
+	DisplayDelay(0);
+	WR_PIN = LOW;				// Enable write
+	WR_PIN = HIGH;				// Disable Write
+	EN_PIN = HIGH;				// Disable LCD*/
+	return;
+}
+
+/*****************************************************************************
+Name:        	Show_Display(_far char *lcd_string)
+Parameters:  	*lcd_string	(pointer to data to be displayed)
+Returns:        none
+Description:    This function displays a full screen image
+*****************************************************************************/
+void LCD_Show_Display(char *lcd_string, int nor_inv)
+{
+	unsigned char local_page;
+	unsigned char col;
+
+	for (local_page=0xb0;local_page < 0xc0; local_page++)
+	{
+		LCD_write_Ctrl(local_page);
+		LCD_write_COLUMN(0);
+		for(col=0;col<LCD_COLS;col++)
+			//TODO: Changed ABOVE
+		{
+			LCD_write_Data(*lcd_string++,nor_inv);
+		}
+	}
+	return;
+}
+
+/*****************************************************************************
+Name:        	PosSetUp()
+Parameters:  	page		Page to write on (P_0 - P_15) Pages are lines 0-15
+column		Column to be written on display.
+Returns:        none
+Description:    This function sets a write position on the LCD
+*****************************************************************************/
+void LCD_PosSetUp(unsigned char Page, unsigned char column)
+{
+	Page = 0xB0 + Page;				// convert page to control code page
+	LCD_write_Ctrl(Page);			// write page to display
+	LCD_write_COLUMN(column);		// write the column code to the display
+	return;
+}
+
+/*****************************************************************************
+Name:        	DisplayString()
+Parameters:  	position	Start Position on Line (Column0-127)
+value		Character to be written to display.
+nor_inv		NORMAL or INVERTED  display
+Returns:        none
+Description:    This function controls LCD writes to the LCD.
+This function only controls the column to start at - page has
+be setup before this function.  Use PosSetUp()
+*****************************************************************************/
+void LCD_DisplayString(unsigned char Start_Col, char *value, int nor_inv)
+{
+
+	int k =0;
+	int j = 0;
+	int a, b;
+	uint8_t Alignment = Start_Col;
+	Start_Col = 0;
+
+	while (value[k] != 0){
+		char_conv(*(value + k));				//upon return m has the address of the bitmap of the character
+		a =  pgm_read_byte(m);				//get the count for colums for character
+		for (b = 0;b != a;b++){				//output the data for each column of the character
+			//conv_buff[j++] = *(m+1+b);
+			conv_buff[j++] = pgm_read_byte(m+1+b);
+			if((Start_Col+j) > LCD_COLS){
+				conv_buff[j-1] = 0;
+				j--;
+				break;
+			}
+		}
+		k++;
+	}
+
+	if (Alignment == LCD_ALIGN_CENTER) {
+		Start_Col = (LCD_COLS - j)/2;
+	} else if (Alignment == LCD_ALIGN_RIGHT) {
+		Start_Col = LCD_COLS - j;
+	}
+
+	LCD_OutputData(Start_Col,j, nor_inv);
+	return;
+}
+
+/*****************************************************************************
+Name:        	DisplayString()
+Parameters:  	position	Start Position on Line (Column0-127)
+value		Character to be written to display.
+nor_inv		NORMAL or INVERTED  display
+Returns:        none
+Description:    This function controls LCD writes to the LCD.
+This function only controls the column to start at - page has
+be setup before this function.  Use PosSetUp()
+*****************************************************************************/
+void LCD_DisplayString_P(unsigned char Start_Col, char *value, int nor_inv)
+{
+
+	int k =0;
+	int j = 0;
+	int a, b;
+	char c;
+	uint8_t Alignment = Start_Col;
+	Start_Col = 0;
+
+	while ((c = pgm_read_byte(value + k)) != 0){
+		char_conv(c);				//upon return m has the address of the bitmap of the character
+		a =  pgm_read_byte(m);				//get the count for colums for character
+		for (b = 0;b != a;b++){				//output the data for each column of the character
+			//conv_buff[j++] = *(m+1+b);
+			conv_buff[j++] = pgm_read_byte(m+1+b);
+			if((Start_Col+j) > LCD_COLS){
+				conv_buff[j-1] = 0;
+				j--;
+				break;
+			}
+		}
+		k++;
+	}
+
+	if (Alignment == LCD_ALIGN_CENTER) {
+		Start_Col = (LCD_COLS - j)/2;
+	} else if (Alignment == LCD_ALIGN_RIGHT) {
+		Start_Col = LCD_COLS - j;
+	}
+
+	LCD_OutputData(Start_Col,j, nor_inv);
+	return;
+}
+
+/*****************************************************************************
+Name:        	DisplayChar()
+Parameters:  	position	Start Position on Line (Column0-127)
+value		Single character to be written to display.
+Returns:        none
+Description:    This function writes a single ASCII chatacter to the LCD display.
+Page must be set up before calling with PosSetUp()
+
+*****************************************************************************/
+void LCD_DisplayChar(unsigned char Start_Col, char value, int nor_inv)
+{
+	//char n;									//buffer to return bit map data
+	unsigned char k =0;
+	int j = 0;
+	unsigned char b;
+
+	char_con[0] = value;
+	char_con[1] = 0;
+	while (char_con[k] != 0){
+		char_conv(*(char_con + k));			//upon return m has the address of the bitmap of the character
+		col_count = pgm_read_byte(m);//*m;						//get the count for columns for character
+		for (b = 0;b != col_count;b++){
+			//conv_buff[j++] = *(m+1+b);
+			conv_buff[j++] = pgm_read_byte(m+1+b);
+		}
+		k++;
+	}
+
+	LCD_OutputData(Start_Col,j,nor_inv);
+	return;
+}
+
+/*****************************************************************************
+Name:        	DisplayChar()
+Parameters:  	position	Start Position on Line (Column0-127)
+value		Single character to be written to display.
+Returns:        none
+Description:    This function writes a single ASCII chatacter to the LCD display.
+Page must be set up before calling with PosSetUp()
+
+*****************************************************************************/
+void LCD_DisplaySpecialChar(unsigned char Start_Col, char value, int nor_inv)
+{
+	//char n;									//buffer to return bit map data
+	unsigned char k =0;
+	int j = 0;
+	unsigned char b;
+
+	char_con[0] = value;
+	char_con[1] = 0;
+	while (char_con[k] != 0){
+		//char_conv(*(char_con + k));			//upon return m has the address of the bitmap of the character
+		if (k == 0) {
+			m = char_bat_2;
+			col_count = pgm_read_byte(m);						//get the count for columns for character
+		}else{
+			m = 0;
+			col_count = 0;}
+		for (b = 0;b != col_count;b++){
+			conv_buff[j++] = pgm_read_byte(m+1+b);
+		}
+		k++;
+	}
+
+	LCD_OutputData(Start_Col,j,nor_inv);
+	return;
+}
+
+/*****************************************************************************
+Name:        	OutputData()
+Parameters:  	position	Start Position on Line (Column0-127)
+value		Single character to be written to display.
+Returns:        none
+Description:    This function outputs data to be displayed to the LCD
+*****************************************************************************/
+void LCD_OutputData(unsigned char Start_Col,int j,int nor_inv)
+{
+	unsigned char a,pass;
+
+	col = Start_Col;					// set the starting column
+	LCD_write_COLUMN(Start_Col);
+	for( i=0;i<j;i++){					// point to data to output
+		if (col == LCD_COLS) {				// has the column count reached 128?
+			LCD_write_COLUMN(0);
+			LCD_write_Ctrl(++page);
+			col = 1;
+		}
+		g = conv_buff[i];
+		I2C_Start();
+		I2C_out(DATASEND);
+
+		/* Check for normal (1) or inverted (0), then write data byte to output */
+		if (nor_inv == INVERTED){
+			a = (char)((0xff) ^(g));
+		}
+		else {
+			_delay_us(1);
+			a = (char) g;				// Output data
+			_delay_us(1);
+		}
+		for(pass=0;pass<4;pass++){
+			I2C_out(a);
+		}
+		I2C_Stop();
+	}
+	return;
+}
+
+/*****************************************************************************
+Name:           LCD_write_Data()
+Parameters:     value - the value to write
+
+nor_inv - normal display (dark characters on a white background
+or inverted display (light characters on a dark
+background
+1 = Normal
+0 = Inverted
+Returns:        none
+Description:    Writes data to display.
+*****************************************************************************/
+void LCD_write_Data(unsigned char value, int nor_inv)
+{
+	unsigned char a, pass;
+
+	I2C_Start();
+	I2C_out(DATASEND);
+	if (nor_inv == INVERTED){
+		a = (char)((0xff) ^(value));
+	}
+	else {
+		a = (char) value;
+	}
+	for(pass = 0; pass<4;pass++){
+		I2C_out(a);
+	}
+	I2C_Stop();
+	return;
+}
+
+/*****************************************************************************
+Name:           LCD_write_DataGS()
+Parameters:     value - the value to write
+
+WITH GrayScale Settings!! (Each pixel is 4 bits long)
+
+nor_inv - normal display (dark characters on a white background
+or inverted display (light characters on a dark
+background
+1 = Normal
+0 = Inverted
+Returns:        none
+Description:    Writes data to display.
+*****************************************************************************/
+void LCD_write_DataGS(uint32_t value)
+{
+	unsigned char pass;
+
+	/*uint16_t i, j;
+	uint8_t t, r;
+
+	j = (int)(value>>16);
+	t = (uint8_t)(j>>8);
+	r = (uint8_t)j;
+	j = t + (((uint16_t)r)<<8);
+
+	i = (int)value;
+	t = (uint8_t)(i>>8);
+	r = (uint8_t)i;
+	i = t + (((uint16_t)r)<<8);
+
+	value = j + (((uint32_t)i)<<16);*/
+
+	I2C_Start();
+	I2C_out(DATASEND);
+	for(pass = 0; pass<4;pass++){
+		I2C_out(*(((uint8_t*)&value)+pass));
+		_delay_us(1);
+	}
+	I2C_Stop();
+	return;
+}
+
+/*****************************************************************************
+Name:           LCD_write_COLUMN()
+Parameters:     value - the value to write
+
+Returns:        none
+Description:    Sets the location (column for the next write to display
+*****************************************************************************/
+void LCD_write_COLUMN(long value) {
+	int a;
+
+	a = value >> 4;							//shift upper nibble 4 places to the right
+	a = (a & 0x0F) + 0x10;					//mask off upper nibble
+
+	I2C_Start();
+	I2C_out(COMSEND);
+
+	//DI_PIN = LOW;
+	//EN_PIN = LOW;          				// Enable LCD
+	I2C_out((char)a);
+	//DATA_PORT = (char) a;					// Output data
+	_delay_us(1);
+	//DisplayDelay(0);
+	//WR_PIN = LOW;							// Enable Write
+	//WR_PIN = HIGH;							// Disable Write
+	//EN_PIN = HIGH;          				// Disable LCD
+
+	a = value & 0x0F;						// Mask off upper nibble
+	//EN_PIN = LOW;          				// Enable LCD
+	I2C_out((char)a);
+	//DATA_PORT = (char) a;					// Output data
+	_delay_us(1);
+	//DisplayDelay(0);
+	//WR_PIN = LOW;							// Enable Write
+	//WR_PIN = HIGH;						// Diasble Write
+	//EN_PIN = HIGH;          				// Disable LCD
+	I2C_Stop();
+	return;
+}
+
+/*****************************************************************************
+Name:          clear_display()
+Parameters:    start line (0-15) and end line (0-15)
+Returns:       none
+Description:   Routine to clear the LCD display.
+To clear the entire display	 - clear_display(0,15).
+i.e. To just clear lines 4 and 5 - clear_display(4,5)
+*****************************************************************************/
+void LCD_Clear_Display(int start, int end)
+{
+	int page;
+	int col;
+
+	if (end > LCD_LINES)							// end page cannot be more than 15
+		end = LCD_LINES;
+	if (start > end)						// start page cannot be less than end page
+		start = end;
+	page = start;							// set the start page
+	col = 0;								// set the column counter to 0
+	LCD_PosSetUp(page, col);
+	do{
+		if (col == LCD_COLS) {					// has the column count reacted 128?
+			col = 0;						// if so then set col counter to 0
+			page++;							// increment page counter
+			if (page  > end)				// if gone past last page, break
+				break;
+			else
+				LCD_PosSetUp(page, col);	// else point LCD to next page, col
+
+		}
+		LCD_write_Data(SPACE, NORMAL);		// write a space to current LCD location
+		col++;								// increment column counter
+	}while (page < end+1);					// as long as we have not gone past the end page
+
+	return;
+}
+
+void LCD_Display_Bitmap(uint8_t Row, uint8_t Col, char* Pic) {
+	int x, y, i;
+	i = 4;
+
+	for (y = 0; y < pgm_read_word(((uint16_t*)(Pic))+1); y+=8) {
+		for (x = 0; x < pgm_read_word(((uint16_t*)(Pic))+0); x++) {
+			LCD_PosSetUp(y/8+Row,x+Col);
+			//LCD_write_Data1(*(((uint32_t*)(&WSReaderLogo))+i));
+			LCD_write_Data(pgm_read_byte(&(Pic[i])),NORMAL);
+			i++;
+		}
+	}
+}
+
+/*****************************************************************************
+Name:           Display_Grapic()
+Parameters:     pointer to string which contains formatting info and data.
+The data is 8 pixels high, with the LSB at the top and the MSB
+at the bottom of the column of 8 pixels.  This example is of a
+pirate ship and requires 4 lines (each 8 pixels high) and is 40
+pixels (columns) wide.
+char pirate_ship [] PROGMEM =
+{
+0x04,									// number of lines of data
+8,60,40,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+0x00,0x00,0x00,0x00,0x00,0x00,0xc0,0xc0,
+0xc0,0x40,0xc0,0xc0,0xc0,0xc0,0xc0,0x40,
+0xc0,0xc0,0xc0,0xc0,0xc0,0x00,0x00,0x00,
+0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+9,60,40,0x00,0x00,0xc0,0xc0,0xc0,0x00,0x00,0x00,
+0x00,0x00,0x00,0x00,0x00,0x00,0x7f,0x7f,
+0x7f,0x5f,0x6e,0x75,0x7b,0xf5,0x6e,0x5f,
+0x7f,0x7f,0x7f,0x7f,0x7f,0x00,0x00,0x00,
+0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+10,60,40,0x00,0x00,0x00,0x00,0x3f,0xc2,0x0a,0x02,
+0x0a,0x02,0x4a,0x02,0x04,0x48,0x10,0x10,
+0x50,0x10,0x10,0x50,0x10,0x1f,0x50,0x10,
+0x10,0x50,0x10,0x10,0x50,0x10,0x90,0x50,
+0x30,0x10,0x08,0x04,0x00,0x00,0x00,0x00,
+11,60,40,0x02,0x02,0x02,0x02,0x02,0x02,0x03,0x02,
+0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,
+0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,
+0x02,0x02,0x02,0x02,0x02,0x03,0x02,0x02,
+0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02
+};
+Returns:        none
+Description:    Displays graphics anywhere on the display
+*****************************************************************************/
+void LCD_Display_Graphic(char *lcd_string)
+{
+	int x,y,z,a,b,c,d;
+	x = z = 0;
+	y = lcd_string[x++];		// number of lines
+	do{
+		a = lcd_string[x++];		//get page number
+		b = lcd_string[x++];		//get start column number
+		LCD_PosSetUp(a,b);
+		c = lcd_string[x++];		//get number of data bytes
+		for (d = 0;d<c;d++)
+		{
+			LCD_write_Data(lcd_string[x++],NORMAL);
+		}
+		z++;
+	}
+	while(z <y);
+
+	return;
+}
+
+void LCD_Print_Terminal(char* str) {
+	LCD_Clear_Display(LCD_Line, LCD_Line);
+	LCD_PosSetUp(LCD_Line,0);
+	LCD_DisplayString(0,str,NORMAL);
+	LCD_Line++;
+	if (LCD_Line > (LCD_LINES-1)) {
+		LCD_Line = 2;
+	}
+	LCD_Clear_Display(LCD_Line, LCD_Line);
+	LCD_PosSetUp(LCD_Line,0);
+	LCD_DisplayChar(0,'>',NORMAL);
+}
+
+void LCD_DispOn(uint8_t isOn) {
+	uint8_t sendByte;
+
+	if (isOn)
+		sendByte = 0xAF;
+	else
+		sendByte = 0xAE;
+
+	I2C_Start();
+	I2C_out(COMSEND);
+	I2C_out(sendByte);
+	I2C_Stop();
+}
+
+inline void I2C_out(uint8_t data) 			//I2C Output
+{
+	/*USART_printf_P(&USARTC0, "I2cStatus = 0x%02X\r\n", twiMaster.status);
+	uint8_t a;
+	a = TWI_MasterWrite(&twiMaster, data);
+	if ((a == 1)) {
+		USART_tx_String_P(&USARTC0, PSTR("I2CWrite SUCCESS!!\r\n"));
+	} else {
+		USART_printf_P(&USARTC0, "I2CWrite FAILS!! - 0x%02X\r\n", a);
+	}*/
+
+	uint8_t n;
+	unsigned char d;
+	d=data;
+	SDA_OUT();							//SDA - Output
+	for(n=0;n<8;n++){	   				//send 8 bits
+		if((d&0x80)==0x80)				//get only the MSB
+			SDA_HI();					//if 1, then SDA=1
+		else
+			SDA_LO();					//if 0, then SDA=0
+		d=(d<<1);						//shift data byte left
+		SCL_LO();
+		SCL_HI();						//clock in data
+		SCL_LO();
+	}
+	SCL_HI();
+	SDA_IN();							//SDA - Input
+	//USART_tx_String_P(&USARTC0, PSTR("I2CWrite Pending!!\r\n"));
+	while(PORTC.IN&(1<<SDABIT)){		//wait here until ACK
+		SCL_LO();
+		SCL_HI();						//clock in data
+	}
+	SCL_LO();
+	//USART_tx_String_P(&USARTC0, PSTR("I2CWrite SUCCESS!!\r\n"));
+	//USART_tx_Byte(&USARTC0, '+');
+
+}
+/*****************************************************/
+inline void I2C_Start()
+{
+	//TWI_MasterStart(&twiMaster, SLAVEADD, 0);
+	SDA_OUT();		//SDA - Output
+	SCL_HI();
+	SDA_HI();
+	SDA_LO();
+	SCL_LO();
+	I2C_out(SLAVEADD);
+}
+/*****************************************************/
+inline void I2C_Stop(void)
+{
+	//TWI_MasterStop(&twiMaster);
+	SDA_OUT();		//SDA - Output
+	SDA_LO();
+	SCL_LO();
+	SCL_HI();
+	SDA_HI();
+}
+/*****************************************************/
+void Show()
+{
+	static uint8_t c;
+	uint8_t n,i;
+	char page=0xB0;			   	//first page
+	//SCR_CS_LO();
+	for(i=0;i<13;i++){			//100 pixels = 12.5 pages
+		I2C_Start();
+		I2C_out(COMSEND);
+
+		//I2C_out(0xAE);		//display off
+
+		I2C_out(0x40);			//Set Initial display line register (2 bytes)
+		I2C_out(0x00);			//To line 0
+
+		I2C_out(page);
+		I2C_out(0x10); 			//column address Y9:Y6
+		I2C_out(0x01);			//column address Y5:Y2
+		I2C_Stop();
+		//USART_print
+		I2C_Start();
+		I2C_out(DATASEND);
+		for(n=0;n<160;n++){
+			//USART_tx_Byte(&USARTC0, n);
+			I2C_out(n+(i-c));	  	//send data 4 times for grayscaling
+			I2C_out(n+(i-c));	  	//send data 4 times for grayscaling
+			I2C_out(n+(i-c));	  	//send data 4 times for grayscaling
+			I2C_out(n+(i-c));	  	//send data 4 times for grayscaling
+			//++text;			   	//point to next byte of data
+		}
+		I2C_Stop();
+		//USART_printf_P(&USARTC0, "Page %d Written\r\n", i);
+		page++;				   //move to next page
+	}
+	I2C_Start();
+	//I2C_out(0xAE);		//display off
+	I2C_out(0xAF);		//display on
+	//I2C_out(0xA7);
+	I2C_Stop();
+	//SCR_CS_HI();
+	//USART_tx_String_P(&USARTC0, PSTR("DonePic\r\n"));
+	c+=5;
+}
+
+/*****************************************************************************
+Name:           LCD_Init()
+Parameters:     none
+Returns:        none
+Description:    Initilizes the display.
+*****************************************************************************/
+void LCD_Init(void) {
+
+	I2C_Start();
+	I2C_out(COMSEND);
+
+	//I2C_out(0x38);
+	//I2C_out(0x01);
+
+	I2C_out(0x48);		//partial display duty ratio (2 bytes)
+	I2C_out(0x64);		// 1/100 duty
+
+	I2C_out(0xA0);		//ADC select
+
+	I2C_out(0xC8);		//SHL select
+
+	I2C_out(0x44);		//initial Com0 register (2 bytes)
+	I2C_out(0x00);		//scan from Com0
+
+	I2C_out(0xAB);		//OSC on
+
+	I2C_out(0x26);		//Select Regulator Resistor (1+Rb/Ra) = 6.5
+
+	I2C_out(0x81);		//set electronic volume (2 bytes)
+	I2C_out(0x1C);		//vopcode=0x1C
+
+	I2C_out(0x56);		//set 1/11 bias
+
+	I2C_out(0x64);		//DC-DC step-up - 3x
+	_delay_ms(200);
+
+	I2C_out(0x2C);		//pwr Ctrl - Internal voltage converter circuit ON
+
+	I2C_out(0x66);		//DC-DC step-up - 5x
+	_delay_ms(200);
+
+	I2C_out(0x2E);		//pwr Ctrl - Internal voltage converter and voltage regulator circuits are ON
+	_delay_ms(200);
+
+	I2C_out(0x2F);		//power control - All circuits ON
+
+	//Comment this out??
+	I2C_out(0xF3);		//bias save circuit (2 bytes)
+	I2C_out(0x00);		//2nd byte - should be all zeros
+
+	I2C_out(0x96);		//frc = 3 and pwm = 60
+
+	//I2C_out(0x38);		//external mode
+	//I2C_out(0x74);		//Frame frequency = 70Hz +-20%, Booster efficiency lvl 2
+	//EXT = 0
+
+	I2C_out(0x97);		//3frc, 45 pwm
+
+	I2C_out(0x38);		//external mode
+	I2C_out(0x75);		//Frame frequency = 70Hz +-20%, Booster efficiency lvl 2
+	//EXT = 1
+
+	I2C_out(0x80);		//start 16-level grayscale settings
+	I2C_out(0x00);		//
+	I2C_out(0x81);		//
+	I2C_out(0x00);		//
+	I2C_out(0x82);		//
+	I2C_out(0x00);		//
+	I2C_out(0x83);		//
+	I2C_out(0x00);		//
+	I2C_out(0x84);		//
+	I2C_out(0x06);		//
+	I2C_out(0x85);		//
+	I2C_out(0x06);		//
+	I2C_out(0x86);		//
+	I2C_out(0x06);		//
+	I2C_out(0x87);		//
+	I2C_out(0x06);		//
+	I2C_out(0x88);		//
+	I2C_out(0x0B);		//
+	I2C_out(0x89);		//
+	I2C_out(0x0B);		//
+	I2C_out(0x8A);		//
+	I2C_out(0x0B);		//
+	I2C_out(0x8B);		//
+	I2C_out(0x0B);		//
+	I2C_out(0x8C);		//
+	I2C_out(0x10);		//
+	I2C_out(0x8D);		//
+	I2C_out(0x10);		//
+	I2C_out(0x8E);		//
+	I2C_out(0x10);		//
+	I2C_out(0x8F);		//
+	I2C_out(0x10);		//
+	I2C_out(0x90);		//
+	I2C_out(0x15);		//
+	I2C_out(0x91);		//
+	I2C_out(0x15);		//
+	I2C_out(0x92);		//
+	I2C_out(0x15);		//
+	I2C_out(0x93);		//
+	I2C_out(0x15);		//
+	I2C_out(0x94);		//
+	I2C_out(0x1A);		//
+	I2C_out(0x95);		//
+	I2C_out(0x1A);		//
+	I2C_out(0x96);		//
+	I2C_out(0x1A);		//
+	I2C_out(0x97);		//
+	I2C_out(0x1A);		//
+	I2C_out(0x98);		//
+	I2C_out(0x1E);		//
+	I2C_out(0x99);		//
+	I2C_out(0x1E);		//
+	I2C_out(0x9A);		//
+	I2C_out(0x1E);		//
+	I2C_out(0x9B);		//
+	I2C_out(0x1E);		//
+	I2C_out(0x9C);		//
+	I2C_out(0x23);		//
+	I2C_out(0x9D);		//
+	I2C_out(0x23);		//
+	I2C_out(0x9E);		//
+	I2C_out(0x23);		//
+	I2C_out(0x9F);		//
+	I2C_out(0x23);		//
+	I2C_out(0xA0);		//
+	I2C_out(0x27);		//
+	I2C_out(0xA1);		//
+	I2C_out(0x27);		//
+	I2C_out(0xA2);		//
+	I2C_out(0x27);		//
+	I2C_out(0xA3);		//
+	I2C_out(0x27);		//
+	I2C_out(0xA4);		//
+	I2C_out(0x2B);		//
+	I2C_out(0xA5);		//
+	I2C_out(0x2B);		//
+	I2C_out(0xA6);		//
+	I2C_out(0x2B);		//
+	I2C_out(0xA7);		//
+	I2C_out(0x2B);		//
+	I2C_out(0xA8);		//
+	I2C_out(0x2F);		//
+	I2C_out(0xA9);		//
+	I2C_out(0x2F);		//
+	I2C_out(0xAA);		//
+	I2C_out(0x2F);		//
+	I2C_out(0xAB);		//
+	I2C_out(0x2F);		//
+	I2C_out(0xAC);		//
+	I2C_out(0x32);		//
+	I2C_out(0xAD);		//
+	I2C_out(0x32);		//
+	I2C_out(0xAE);		//
+	I2C_out(0x32);		//
+	I2C_out(0xAF);		//
+	I2C_out(0x32);		//
+	I2C_out(0xB0);		//
+	I2C_out(0x35);		//
+	I2C_out(0xB1);		//
+	I2C_out(0x35);		//
+	I2C_out(0xB2);		//
+	I2C_out(0x35);		//
+	I2C_out(0xB3);		//
+	I2C_out(0x35);		//
+	I2C_out(0xB4);		//
+	I2C_out(0x38);		//
+	I2C_out(0xB5);		//
+	I2C_out(0x38);		//
+	I2C_out(0xB6);		//
+	I2C_out(0x38);		//
+	I2C_out(0xB7);		//
+	I2C_out(0x38);		//
+	I2C_out(0xB8);		//
+	I2C_out(0x3A);		//
+	I2C_out(0xB9);		//
+	I2C_out(0x3A);		//
+	I2C_out(0xBA);		//
+	I2C_out(0x3A);		//
+	I2C_out(0xBB);		//
+	I2C_out(0x3A);		//
+	I2C_out(0xBC);		//
+	I2C_out(0x3C);		//
+	I2C_out(0xBD);		//
+	I2C_out(0x3C);		//
+	I2C_out(0xBE);		//
+	I2C_out(0x3C);		//
+	I2C_out(0xBF);		//
+	I2C_out(0x3C);		//end grayscale settings
+	I2C_out(0x38);		//external mode
+	I2C_out(0x74);		//Frame frequency = 70Hz +-20%, Booster efficiency lvl 2
+
+	I2C_out(0xAF);		//display on
+	//I2C_out(0xA5);	//all pixels on
+	I2C_Stop();
+}
+
+/*****************************************************************************
+Name:          char_conv()
+Parameters:    ASCII Character to convert to bit map
+Returns:       pointer to string
+Description:   Converts ASCII into bitmap for LCD display
+*****************************************************************************/
+
+char* char_conv(char conv_strng)	{
+	switch(conv_strng){
+	case ' ':
+		m = char_space;
+		break;
+	case '#':
+		m = char_pound;
+		break;
+	case '0':
+		m = char_0;
+		break;
+	case '1':
+		m = char_1;
+		break;
+	case '2':
+		m = char_2;
+		break;
+	case '3':
+		m = char_3;
+		break;
+	case '4':
+		m = char_4;
+		break;
+	case '5':
+		m = char_5;
+		break;
+	case '6':
+		m = char_6;
+		break;
+	case '7':
+		m = char_7;
+		break;
+	case '8':
+		m = char_8;
+		break;
+	case '9':
+		m = char_9;
+		break;
+	case 0x22 :						// " symbol
+		m = char_DQ;
+		break;
+	case 0x27:
+		m = char_SQ;				// ' symbol
+		break;
+	case ':':
+		m = char_COLN;
+		break;
+	case 's':
+		m = char_s;
+		break;
+	case 0xDF:
+		m = char_DEG; 				//degree symbol
+		break;
+	case '/':
+		m = char_BS;
+		break;
+	case 0xFF:
+		m = char_BLK; 				//block symbol
+		break;
+	case 0x02:
+		m = char_CHK; 				//check mark
+		break;
+	case '@':
+		m = char_AMP;
+		break;
+	case 0x7E:
+		m = char_RA; 				//invert video (right arrow)
+		break;
+	case 'A':
+		m = char_A;
+		break;
+	case 'B':
+		m = char_B;
+		break;
+	case 'C':
+		m = char_C;
+		break;
+	case 'D':
+		m = char_D;
+		break;
+	case 'E':
+		m = char_E;
+		break;
+	case 'F':
+		m = char_F;
+		break;
+	case 'G':
+		m = char_G;
+		break;
+	case 'H':
+		m = char_H;
+		break;
+	case 'I':
+		m = char_I;
+		break;
+	case 'J':
+		m = char_J;
+		break;
+	case 'K':
+		m = char_K;
+		break;
+	case 'L':
+		m = char_L;
+		break;
+	case 'M':
+		m = char_M;
+		break;
+	case 'N':
+		m = char_N;
+		break;
+	case 'O':
+		m = char_O;
+		break;
+	case 'P':
+		m = char_P;
+		break;
+	case 'Q':
+		m = char_Q;
+		break;
+	case 'R':
+		m = char_R;
+		break;
+	case 'S':
+		m = char_S;
+		break;
+	case 'T':
+		m = char_T;
+		break;
+	case 'U':
+		m = char_U;
+		break;
+	case 'V':
+		m = char_V;
+		break;
+	case 'W':
+		m = char_W;
+		break;
+	case 'X':
+		m = char_X;
+		break;
+	case 'Y':
+		m = char_Y;
+		break;
+	case 'Z':
+		m = char_Z;
+		break;
+	case 'a':
+		m = char_a;
+		break;
+	case 'b':
+		m = char_b;
+		break;
+	case 'c':
+		m = char_c;
+		break;
+	case 'd':
+		m = char_d;
+		break;
+	case 'e':
+		m = char_e;
+		break;
+	case 'f':
+		m = char_f;
+		break;
+	case 'g':
+		m = char_g;
+		break;
+	case 'h':
+		m = char_h;
+		break;
+	case 'i':
+		m = char_i;
+		break;
+	case 'j':
+		m = char_j;
+		break;
+	case 'k':
+		m = char_k;
+		break;
+	case 'l':
+		m = char_l;
+		break;
+	case 'm':
+		m = char_m;
+		break;
+	case 'n':
+		m = char_n;
+		break;
+	case 'o':
+		m = char_o;
+		break;
+	case 'p':
+		m = char_p;
+		break;
+	case 'q':
+		m = char_q;
+		break;
+	case 'r':
+		m = char_r;
+		break;
+//	case 's':
+//		m = char_s; 					//defined earlier
+//		break;
+	case 't':
+		m = char_t;
+		break;
+	case 'u':
+		m = char_u;
+		break;
+	case 'v':
+		m = char_v;
+		break;
+	case 'w':
+		m = char_w;
+		break;
+	case 'x':
+		m = char_x;
+		break;
+	case 'y':
+		m = char_y;
+		break;
+	case 'z':
+		m = char_z;
+		break;
+	case '!':
+		m = char_Exe;
+		break;
+	case '$':
+		m = char_Dol;
+		break;
+	case '%':
+		m = char_PerC;
+		break;
+	case '^':
+		m = char_UpHat;
+		break;
+	case '&':
+		m = char_Amp;
+		break;
+	case '*':
+		m = char_Astr;
+		break;
+	case '(':
+		m = char_OpPren;
+		break;
+	case ')':
+		m = char_CLPREN;
+		break;
+	case '-':
+		m = char_Minus;
+		break;
+	case '_':
+		m = char_UnScr;
+		break;
+	case '=':
+		m = char_Eq;
+		break;
+	case '+':
+		m = char_Plus;
+		break;
+	case '.':
+		m = char_Period;
+		break;
+	case '?':
+		m = char_Ques;
+		break;
+	case '>':
+		m = char_GRT;
+		break;
+	case '<':
+		m = char_LT;
+		break;
+	case ',':
+		m = char_Coma;
+		break;
+	case ';':
+		m = char_Semi;
+		break;
+	case 0x84:
+		m = char_UP_DWN;
+	}
+	return(m);
+}
+
+void showSplash() {
+
+	LCD_DispOn(0);
+
+	LCD_Clear_Display(0,12);
+
+	LCD_Display_Bitmap(3, 0, WSReaderLogo);
+
+	LCD_PosSetUp(9,0);
+	LCD_DisplayString(LCD_ALIGN_CENTER, STR_PRODUCT_N, NORMAL);
+	LCD_PosSetUp(10,0);
+	LCD_DisplayString(LCD_ALIGN_CENTER, STR_CODE_V, NORMAL);
+
+	LCD_DispOn(1);
+}
+void scrTest(void)
+{
+	//int i = 0;
+	LCD_InitDisplay();
+	LCD_Init();
+	_delay_ms(2);
+
+	SCR_BL_ON();
+
+	_delay_ms(3);
+
+	LCD_Clear_Display(0,12);
+
+	//LCD_Display_Graphic(pirate_ship);
+
+	showSplash();
+
+	/*LCD_PosSetUp(3,0);
+	LCD_DisplaySpecialChar(10,5,NORMAL);
+	LCD_PosSetUp(5,0);
+	LCD_DisplaySpecialChar(10,5,NORMAL);*/
+
+
+
+	/*
+#define jMAX 10
+	for (i = 0; i < 12;i++) {
+		for (j = 0; j < jMAX; j++) {
+			LCD_PosSetUp(i,(0*jMAX)+j);
+			LCD_write_Data1(0x00000000);
+			LCD_PosSetUp(i,(1*jMAX)+j);
+			LCD_write_Data1(0x000000FF);
+			LCD_PosSetUp(i,(2*jMAX)+j);
+			LCD_write_Data1(0x0000FF00);
+			LCD_PosSetUp(i,(3*jMAX)+j);
+			LCD_write_Data1(0x0000FFFF);
+			LCD_PosSetUp(i,(4*jMAX)+j);
+			LCD_write_Data1(0x00FF0000);
+			LCD_PosSetUp(i,(5*jMAX)+j);
+			LCD_write_Data1(0x00FF00FF);
+			LCD_PosSetUp(i,(6*jMAX)+j);
+			LCD_write_Data1(0x00FFFF00);
+			LCD_PosSetUp(i,(7*jMAX)+j);
+			LCD_write_Data1(0x00FFFFFF);
+			LCD_PosSetUp(i,(8*jMAX)+j);
+			LCD_write_Data1(0xFF000000);
+			LCD_PosSetUp(i,(9*jMAX)+j);
+			LCD_write_Data1(0xFF0000FF);
+			LCD_PosSetUp(i,(10*jMAX)+j);
+			LCD_write_Data1(0xFF00FF00);
+			LCD_PosSetUp(i,(11*jMAX)+j);
+			LCD_write_Data1(0xFF00FFFF);
+			LCD_PosSetUp(i,(12*jMAX)+j);
+			LCD_write_Data1(0xFFFF0000);
+			LCD_PosSetUp(i,(13*jMAX)+j);
+			LCD_write_Data1(0xFFFF00FF);
+			LCD_PosSetUp(i,(14*jMAX)+j);
+			LCD_write_Data1(0xFFFFFF00);
+			LCD_PosSetUp(i,(15*jMAX)+j);
+			LCD_write_Data1(0xFFFFFFFF);
+		}
+	}*/
+	/*LCD_PosSetUp(3,5);
+	LCD_write_Data1(0x00000000);
+	LCD_PosSetUp(3,6);
+	LCD_write_Data1(0x000000FF);
+	LCD_PosSetUp(3,7);
+	LCD_write_Data1(0x0000FF00);*/
+
+	while(1)
+	{
+
+
+		_delay_ms(1000);
+		//Show();
+		//_delay_ms(100);
+		//SCL_LO();
+		//SCL_HI();						//clock in data
+		//_delay_ms(3000);
+		//Show(picture2);
+		//_delay_ms(3000);
+	}
+
+}
+

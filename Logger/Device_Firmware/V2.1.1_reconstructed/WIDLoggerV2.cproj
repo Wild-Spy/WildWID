@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ProjectGuid>{4c0b97a9-6f44-4dbe-a74a-d19782affb66}</ProjectGuid>
+    <avrdevice>ATxmega32A4</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AvrGccProjectExtensions>
+    </AvrGccProjectExtensions>
+    <AssemblyName>WIDReader</AssemblyName>
+    <Name>WIDLoggerV2</Name>
+    <RootNamespace>WIDReader</RootNamespace>
+    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
+    <avrtoolinterface>PDI</avrtoolinterface>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolName>AVR Simulator</ToolName>
+      <ToolNumber>
+      </ToolNumber>
+      <Channel>
+        <host>127.0.0.1</host>
+        <port>57033</port>
+        <ssl>False</ssl>
+      </Channel>
+    </com_atmel_avrdbg_tool_simulator>
+    <com_atmel_avrdbg_tool_avrdragon>
+      <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
+      <ToolName>AVR Dragon</ToolName>
+      <ToolNumber>00A20000865C</ToolNumber>
+      <Channel>
+        <host>127.0.0.1</host>
+        <port>50349</port>
+        <ssl>False</ssl>
+      </Channel>
+      <ToolOptions>
+        <InterfaceName>PDI</InterfaceName>
+        <InterfaceProperties>
+          <JtagDbgClock>200000</JtagDbgClock>
+          <JtagProgClock>1000000</JtagProgClock>
+          <IspClock>150000</IspClock>
+          <JtagInChain>false</JtagInChain>
+          <JtagEnableExtResetOnStartSession>false</JtagEnableExtResetOnStartSession>
+          <JtagDevicesBefore>0</JtagDevicesBefore>
+          <JtagDevicesAfter>0</JtagDevicesAfter>
+          <JtagInstrBitsBefore>0</JtagInstrBitsBefore>
+          <JtagInstrBitsAfter>0</JtagInstrBitsAfter>
+        </InterfaceProperties>
+      </ToolOptions>
+    </com_atmel_avrdbg_tool_avrdragon>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <preserveEEPROM>True</preserveEEPROM>
+    <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <AsfVersion>3.1.3</AsfVersion>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <BootSegment>2</BootSegment>
+    <AsfFrameworkConfig>
+      <framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.22.0" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+    <avrtoolserialnumber>00A20000865C</avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0x1E9541</avrdeviceexpectedsignature>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputFileName>WIDLoggerV2</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.common.Device>-mmcu=atxmega32a4 -B "%24(PackRepoDir)\atmel\XMEGAA_DFP\1.0.39\gcc\dev\atxmega32a4"</avrgcc.common.Device>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\XMEGAA_DFP\1.0.39\include</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avrgcc.linker.libraries.Libraries>
+        <avrgcc.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\XMEGAA_DFP\1.0.39\include</Value>
+          </ListValues>
+        </avrgcc.assembler.general.IncludePaths>
+      </AvrGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <OutputFileName>WIDLoggerV2</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.common.Device>-mmcu=atxmega32a4 -B "%24(PackRepoDir)\atmel\XMEGAA_DFP\1.0.39\gcc\dev\atxmega32a4"</avrgcc.common.Device>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>F_CPU=12000000UL</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\XMEGAA_DFP\1.0.39\include</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avrgcc.linker.libraries.Libraries>
+        <avrgcc.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\XMEGAA_DFP\1.0.39\include</Value>
+          </ListValues>
+        </avrgcc.assembler.general.IncludePaths>
+        <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
+      </AvrGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Libs\avr_compiler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\CC2500.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\CC2500.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\clksys_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\clksys_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_ErrorEnum.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\eeprom_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\eeprom_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\lowpower_macros.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_Iridium9603.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_Iridium9603.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_NRF24L01.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_NRF24L01.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_RTC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_RTC.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_SerComms.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_SerComms.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_SerFlash.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_SerFlash.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_USART.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\MX_USART.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\M_List.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\M_List.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\SettingsManager.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\SettingsManager.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\TC_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Libs\TC_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Strings.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Strings.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="WIDLogV2.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="WIDLogV2.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Libs" />
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\AvrGCC.targets" />
+</Project>
