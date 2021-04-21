@@ -21,5 +21,7 @@ A more detailed overview of WildWID and its use in wildlife biology is covered i
 
 Rafiq, K., Appleby, R.G., Edgar, J.P., Jordan, N.R., Radford, C., Smith, B., Dexter, C.E., Jones, D.N., Blacker, A.R.F., and Cochrane, M., 'WildWID: An open-source active RFID system for wildlife research', *Methods in Ecology and Evolution*, in publication.
 
+[![DOI](https://zenodo.org/badge/260139150.svg)](https://zenodo.org/badge/latestdoi/260139150)
+
 ## License
 This project is licensed under the terms of the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
